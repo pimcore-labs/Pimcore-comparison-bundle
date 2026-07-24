@@ -1,0 +1,194 @@
+/* ==========================================================================
+   Pimcore Design System — Colors & Type tokens
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ---------- Brand colors ---------- */
+  --pc-purple:        #6428B4;   /* Purple Heart — primary */
+  --pc-purple-600:    #5621a0;   /* hover */
+  --pc-purple-700:    #471a85;   /* press */
+  --pc-purple-800:    #3a1370;
+  --pc-purple-100:    #efe9fa;   /* subtle bg / chips */
+  --pc-purple-200:    #d9c8f1;
+  --pc-purple-300:    #b89ae3;
+
+  --pc-black:         #000000;
+  --pc-white:         #ffffff;
+
+  /* ---------- Neutrals (cool, leaning purple) ---------- */
+  --pc-ink-900:       #0c0a14;
+  --pc-ink-800:       #1a1622;
+  --pc-ink-700:       #2c2738;
+  --pc-ink-600:       #4a4458;
+  --pc-ink-500:       #6b6479;
+  --pc-ink-400:       #8e889a;
+  --pc-ink-300:       #b8b3c0;
+  --pc-ink-200:       #ddd9e3;
+  --pc-ink-150:       #ebe8ef;
+  --pc-ink-100:       #f4f2f7;
+  --pc-ink-50:        #faf9fc;
+
+  /* ---------- Semantic ---------- */
+  --pc-success:       #1f9d5c;
+  --pc-success-bg:    #e6f6ee;
+  --pc-warning:       #d97706;
+  --pc-warning-bg:    #fdf3e3;
+  --pc-danger:        #d6304a;
+  --pc-danger-bg:     #fbe6ea;
+  --pc-info:          #2563eb;
+  --pc-info-bg:       #e7efff;
+
+  /* ---------- Foreground / background tokens ---------- */
+  --pc-fg-1:          var(--pc-ink-900);   /* primary text */
+  --pc-fg-2:          var(--pc-ink-700);   /* body */
+  --pc-fg-3:          var(--pc-ink-500);   /* muted / labels */
+  --pc-fg-4:          var(--pc-ink-400);   /* placeholder */
+  --pc-fg-on-purple:  var(--pc-white);
+
+  --pc-bg-1:          var(--pc-white);     /* surface */
+  --pc-bg-2:          var(--pc-ink-50);    /* page */
+  --pc-bg-3:          var(--pc-ink-100);   /* sunken */
+  --pc-bg-inverse:    var(--pc-ink-900);   /* dark sections */
+
+  --pc-border:        var(--pc-ink-200);
+  --pc-border-strong: var(--pc-ink-300);
+
+  /* ---------- Typography ---------- */
+  --pc-font-sans:     'Inter', 'Helvetica Neue', Arial, system-ui, -apple-system, sans-serif;
+  --pc-font-display:  'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --pc-font-mono:     'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale (web/marketing) */
+  --pc-text-display-xl: 88px;
+  --pc-text-display:    64px;
+  --pc-text-h1:         48px;
+  --pc-text-h2:         36px;
+  --pc-text-h3:         28px;
+  --pc-text-h4:         22px;
+  --pc-text-h5:         18px;
+  --pc-text-body-lg:    18px;
+  --pc-text-body:       16px;
+  --pc-text-sm:         14px;
+  --pc-text-xs:         12px;
+
+  /* App / Studio (denser) */
+  --pc-app-text:        13px;
+  --pc-app-heading:     15px;
+
+  /* Weights */
+  --pc-weight-regular:  400;
+  --pc-weight-medium:   500;
+  --pc-weight-semibold: 600;
+  --pc-weight-bold:     700;
+  --pc-weight-black:    800;
+
+  /* Line heights */
+  --pc-lh-tight:    1.05;
+  --pc-lh-snug:     1.2;
+  --pc-lh-normal:   1.4;
+  --pc-lh-relaxed:  1.6;
+
+  /* Letter spacing */
+  --pc-track-tight:  -0.02em;
+  --pc-track-normal: 0;
+  --pc-track-loose:  0.04em;
+  --pc-track-caps:   0.08em;
+
+  /* ---------- Spacing scale (4px base) ---------- */
+  --pc-s-1:  4px;
+  --pc-s-2:  8px;
+  --pc-s-3:  12px;
+  --pc-s-4:  16px;
+  --pc-s-5:  20px;
+  --pc-s-6:  24px;
+  --pc-s-8:  32px;
+  --pc-s-10: 40px;
+  --pc-s-12: 48px;
+  --pc-s-16: 64px;
+  --pc-s-20: 80px;
+  --pc-s-24: 96px;
+  --pc-s-32: 128px;
+
+  /* ---------- Radii ---------- */
+  --pc-radius-xs: 2px;
+  --pc-radius-sm: 4px;
+  --pc-radius:    8px;
+  --pc-radius-md: 12px;
+  --pc-radius-lg: 16px;
+  --pc-radius-xl: 24px;
+  --pc-radius-pill: 999px;
+
+  /* ---------- Shadows / elevation ---------- */
+  --pc-shadow-xs: 0 1px 2px rgba(12, 10, 20, 0.06);
+  --pc-shadow-sm: 0 2px 6px rgba(12, 10, 20, 0.06), 0 1px 2px rgba(12, 10, 20, 0.04);
+  --pc-shadow:    0 8px 24px rgba(12, 10, 20, 0.08), 0 2px 6px rgba(12, 10, 20, 0.04);
+  --pc-shadow-lg: 0 24px 48px rgba(12, 10, 20, 0.14), 0 4px 12px rgba(12, 10, 20, 0.06);
+  --pc-shadow-purple: 0 12px 32px rgba(100, 40, 180, 0.28);
+
+  /* ---------- Motion ---------- */
+  --pc-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --pc-ease-emphatic: cubic-bezier(0.32, 0.72, 0, 1);
+  --pc-dur-fast:   120ms;
+  --pc-dur-base:   180ms;
+  --pc-dur-slow:   320ms;
+}
+
+/* ==========================================================================
+   Semantic typographic styles
+   ========================================================================== */
+
+.pc-display-xl,
+.pc-display,
+.pc-h1, .pc-h2, .pc-h3, .pc-h4, .pc-h5,
+.pc-body, .pc-body-lg, .pc-sm, .pc-xs {
+  font-family: var(--pc-font-sans);
+  color: var(--pc-fg-1);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.pc-display-xl {
+  font-size: var(--pc-text-display-xl);
+  line-height: var(--pc-lh-tight);
+  letter-spacing: var(--pc-track-tight);
+  font-weight: var(--pc-weight-black);
+}
+
+.pc-display {
+  font-size: var(--pc-text-display);
+  line-height: var(--pc-lh-tight);
+  letter-spacing: var(--pc-track-tight);
+  font-weight: var(--pc-weight-bold);
+}
+
+.pc-h1 { font-size: var(--pc-text-h1); line-height: var(--pc-lh-tight);  letter-spacing: var(--pc-track-tight);  font-weight: var(--pc-weight-bold); }
+.pc-h2 { font-size: var(--pc-text-h2); line-height: var(--pc-lh-snug);   letter-spacing: var(--pc-track-tight);  font-weight: var(--pc-weight-bold); }
+.pc-h3 { font-size: var(--pc-text-h3); line-height: var(--pc-lh-snug);   font-weight: var(--pc-weight-semibold); }
+.pc-h4 { font-size: var(--pc-text-h4); line-height: var(--pc-lh-snug);   font-weight: var(--pc-weight-semibold); }
+.pc-h5 { font-size: var(--pc-text-h5); line-height: var(--pc-lh-normal); font-weight: var(--pc-weight-semibold); }
+
+.pc-body-lg { font-size: var(--pc-text-body-lg); line-height: var(--pc-lh-relaxed); color: var(--pc-fg-2); }
+.pc-body    { font-size: var(--pc-text-body);    line-height: var(--pc-lh-relaxed); color: var(--pc-fg-2); }
+.pc-sm      { font-size: var(--pc-text-sm);      line-height: var(--pc-lh-normal);  color: var(--pc-fg-3); }
+.pc-xs      { font-size: var(--pc-text-xs);      line-height: var(--pc-lh-normal);  color: var(--pc-fg-3); }
+
+.pc-eyebrow {
+  font-family: var(--pc-font-sans);
+  font-size: var(--pc-text-xs);
+  font-weight: var(--pc-weight-semibold);
+  letter-spacing: var(--pc-track-caps);
+  text-transform: uppercase;
+  color: var(--pc-purple);
+}
+
+.pc-mono {
+  font-family: var(--pc-font-mono);
+  font-size: 13px;
+  line-height: var(--pc-lh-normal);
+  color: var(--pc-fg-1);
+  background: var(--pc-bg-3);
+  padding: 1px 6px;
+  border-radius: var(--pc-radius-sm);
+}

@@ -1,0 +1,6 @@
+# SEED — hand-authored from _specs/base-idea.md + _specs/requirements.md.
+# Not generated. Will be REPLACED by `comparison:features:ingest` + `comparison:features:state` once the
+# generators are ported (implementation plan, Phase 7). No test has run yet, so there is no evidence.
+present: false
+phpunit: {  }
+playwright: {  }

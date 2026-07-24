@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/pimcore-design-system-019dd343-f64e-72a9-8afe-a8b36a12e9e4/colors_and_type.css">
+<link rel="stylesheet" href="https://unpkg.com/lucide-static@0.460.0/font/lucide.css">
+<script src="_ds/pimcore-design-system-019dd343-f64e-72a9-8afe-a8b36a12e9e4/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#faf9fc}
+a{color:#6428B4}
+a:hover{color:#5621a0}
+input::placeholder{color:#8e889a}
+@keyframes pc-toast-in{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</helmet>
+<div style="height:100vh;display:flex;flex-direction:column;overflow:hidden;background:var(--pc-bg-2);font-family:var(--pc-font-sans);color:var(--pc-ink-900)">
+
+  <div data-screen-label="Prototype nav" style="background:#0c0a14;color:#fff;display:flex;align-items:center;gap:14px;padding:9px 20px;flex:none">
+    <img src="assets/logo-mark-white.svg" alt="Pimcore" style="height:15px">
+    <div style="width:1px;height:16px;background:#2c2738"></div>
+    <span style="font-size:12px;font-weight:600">PimcoreComparisonBundle</span>
+    <span style="font-size:11px;color:#8e889a">concept prototype · draft v0.1</span>
+    <div style="flex:1"></div>
+    <span style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6b6479">Flow</span>
+    <div style="display:flex;gap:6px">
+      <button onClick="{{ goListing }}" style="{{ step1Style }}">1 · Entry: listing</button>
+      <button onClick="{{ goDialog }}" style="{{ step2Style }}">2 · Compare with…</button>
+      <button onClick="{{ goCompare }}" style="{{ step3Style }}">3 · Comparison view</button>
+    </div>
+  </div>
+
+  <sc-if value="{{ isListing }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Entry point 1 — grid multi-select" style="flex:1;overflow:auto;min-height:0">
+      <div style="max-width:1160px;margin:0 auto;padding:24px 20px 40px;box-sizing:border-box">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;flex-wrap:wrap;line-height:1.4">
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--pc-purple)">Entry point 1</span>
+          <span style="font-size:12px;color:var(--pc-ink-500)">Grid multi-select → context menu</span>
+        </div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:14px">Data Objects · /Products · listing</div>
+        <div style="position:relative;background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:8px;box-shadow:var(--pc-shadow-sm)">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--pc-ink-150)">
+            <span style="font-size:12px;font-weight:600;color:var(--pc-ink-800)">2 selected</span>
+            <span style="font-size:11px;padding:2px 8px;border-radius:999px;background:var(--pc-purple-100);color:var(--pc-purple);font-weight:600">class: Product</span>
+            <div style="flex:1"></div>
+            <span style="font-size:11px;color:var(--pc-ink-400)">right-click selection for actions</span>
+          </div>
+          <div style="display:grid;grid-template-columns:36px 64px 1.4fr 1.2fr 1fr 110px 130px;align-items:center;padding:0 4px;height:32px;font-size:10.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--pc-ink-400);border-bottom:1px solid var(--pc-ink-150)">
+            <span></span><span>ID</span><span>Key</span><span>Name</span><span>SKU</span><span>Published</span><span>Modified</span>
+          </div>
+          <sc-for list="{{ gridRows }}" as="g" hint-placeholder-count="6">
+            <div style="{{ g.rowStyle }}">
+              <span style="display:flex;justify-content:center"><span style="{{ g.ckStyle }}"><i class="{{ g.ckIcon }}" style="font-size:11px"></i></span></span>
+              <span style="font-family:var(--pc-font-mono);font-size:11px;color:var(--pc-ink-500)">{{ g.id }}</span>
+              <span style="font-family:var(--pc-font-mono);font-size:11.5px;color:var(--pc-ink-800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.key }}</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.name }}</span>
+              <span style="font-family:var(--pc-font-mono);font-size:11.5px;color:var(--pc-ink-600)">{{ g.sku }}</span>
+              <span><span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;{{ g.pubStyle }}">{{ g.pubLb }}</span></span>
+              <span style="font-size:11.5px;color:var(--pc-ink-500)">{{ g.mod }}</span>
+            </div>
+          </sc-for>
+          <div style="position:absolute;top:224px;left:54%;width:236px;background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:8px;box-shadow:var(--pc-shadow-lg);padding:5px;z-index:20">
+            <sc-for list="{{ menuItems }}" as="m" hint-placeholder-count="5">
+              <div>
+                <sc-if value="{{ m.divider }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:1px;background:var(--pc-ink-150);margin:4px 6px"></div>
+                </sc-if>
+                <sc-if value="{{ m.lb }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ m.onClick }}" style="{{ m.style }}"><i class="{{ m.icon }}" style="font-size:13px"></i><span>{{ m.lb }}</span><span style="flex:1"></span><sc-if value="{{ m.hot }}" hint-placeholder-val="{{ false }}"><i class="icon-chevron-right" style="font-size:12px;opacity:0.6"></i></sc-if></button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;color:var(--pc-ink-400);margin-top:10px;display:flex;align-items:center;gap:6px"><i class="icon-info" style="font-size:12px"></i><span>“Compare objects” is enabled only when exactly two objects of the same class are selected.</span></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isDialog }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Entry point 2 — Compare with dialog" style="flex:1;min-height:0;position:relative;display:flex;flex-direction:column;overflow:hidden">
+      <div style="display:flex;align-items:center;padding:10px 18px;border-bottom:1px solid var(--pc-ink-150);background:var(--pc-bg-1);font-size:12px;color:var(--pc-ink-500);gap:6px;flex:none">
+        <span>Products</span><i class="icon-chevron-right" style="font-size:11px"></i>
+        <span>Bicycles</span><i class="icon-chevron-right" style="font-size:11px"></i>
+        <span style="color:var(--pc-ink-900);font-weight:600">TRAIL-PRO-29-XL</span>
+        <span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;background:var(--pc-success-bg);color:#156a3e">Published</span>
+        <div style="flex:1"></div>
+        <button style="background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:4px;padding:5px 10px;font-size:12px;color:var(--pc-ink-700);cursor:pointer;display:flex;align-items:center;gap:6px;font-family:inherit"><i class="icon-eye" style="font-size:13px"></i>Preview</button>
+        <button style="background:var(--pc-purple-100);border:1px solid var(--pc-purple-300);border-radius:4px;padding:5px 10px;font-size:12px;color:var(--pc-purple);cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:600;box-shadow:0 0 0 3px rgba(100,40,180,0.15);margin-left:6px;font-family:inherit"><i class="icon-git-compare-arrows" style="font-size:13px"></i>Compare with…</button>
+        <button style="background:var(--pc-purple);border:0;border-radius:4px;padding:6px 14px;font-size:12px;color:#fff;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px;margin-left:6px;font-family:inherit"><i class="icon-check" style="font-size:13px"></i>Save &amp; publish</button>
+      </div>
+      <div style="flex:1;position:relative;background:var(--pc-ink-100);min-height:0">
+        <div style="position:absolute;inset:0;padding:24px 28px;opacity:0.5">
+          <div style="max-width:840px">
+            <div style="height:10px;width:120px;background:var(--pc-ink-200);border-radius:4px;margin-bottom:14px"></div>
+            <div style="height:30px;background:var(--pc-bg-1);border:1px solid var(--pc-ink-200);border-radius:4px;margin-bottom:10px"></div>
+            <div style="height:30px;background:var(--pc-bg-1);border:1px solid var(--pc-ink-200);border-radius:4px;margin-bottom:10px;width:70%"></div>
+            <div style="height:64px;background:var(--pc-bg-1);border:1px solid var(--pc-ink-200);border-radius:4px;margin-bottom:10px"></div>
+            <div style="height:10px;width:90px;background:var(--pc-ink-200);border-radius:4px;margin:18px 0 14px"></div>
+            <div style="height:30px;background:var(--pc-bg-1);border:1px solid var(--pc-ink-200);border-radius:4px;width:50%"></div>
+          </div>
+        </div>
+        <div style="position:absolute;inset:0;background:rgba(12,10,20,0.42)"></div>
+        <div style="position:absolute;top:48px;left:50%;transform:translateX(-50%);width:560px;max-width:calc(100% - 40px);background:var(--pc-bg-1);border-radius:12px;box-shadow:var(--pc-shadow-lg);overflow:hidden">
+          <div style="display:flex;align-items:center;gap:10px;padding:16px 18px 4px">
+            <i class="icon-git-compare-arrows" style="font-size:17px;color:var(--pc-purple)"></i>
+            <span style="font-size:15px;font-weight:700">Compare with…</span>
+            <div style="flex:1"></div>
+            <button onClick="{{ goCompare }}" style="background:transparent;border:0;color:var(--pc-ink-400);cursor:pointer;padding:4px;display:flex"><i class="icon-x" style="font-size:15px"></i></button>
+          </div>
+          <div style="font-size:12px;color:var(--pc-ink-500);padding:0 18px 12px">Pick a second object to compare with <span style="font-family:var(--pc-font-mono);font-size:11px;color:var(--pc-ink-800)">TRAIL-PRO-29-XL</span> — results are pre-filtered to class <b style="color:var(--pc-ink-800)">Product</b>.</div>
+          <div style="margin:0 18px 10px;display:flex;align-items:center;gap:8px;border:1px solid var(--pc-border);border-radius:6px;padding:7px 12px;background:var(--pc-bg-1)">
+            <i class="icon-search" style="font-size:13px;color:var(--pc-ink-400)"></i>
+            <input value="trail pro" readOnly style="border:0;outline:none;font-size:13px;flex:1;font-family:inherit;color:var(--pc-ink-900);background:transparent">
+            <span style="font-size:10px;font-family:var(--pc-font-mono);background:var(--pc-ink-100);padding:2px 6px;border-radius:3px;color:var(--pc-ink-500)">4 results</span>
+          </div>
+          <div style="border-top:1px solid var(--pc-ink-150);max-height:250px;overflow:auto">
+            <sc-for list="{{ dlgResults }}" as="d" hint-placeholder-count="4">
+              <div onClick="{{ d.onClick }}" style="{{ d.style }}">
+                <span style="width:30px;height:30px;border-radius:6px;background:var(--pc-purple-100);color:var(--pc-purple);display:flex;align-items:center;justify-content:center;flex:none"><i class="icon-package" style="font-size:14px"></i></span>
+                <span style="min-width:0;flex:1">
+                  <span style="display:block;font-family:var(--pc-font-mono);font-size:12px;font-weight:600;color:var(--pc-ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.key }}</span>
+                  <span style="display:block;font-size:11px;color:var(--pc-ink-500)">{{ d.name }} · <span style="font-family:var(--pc-font-mono)">{{ d.path }}</span></span>
+                </span>
+                <span style="font-family:var(--pc-font-mono);font-size:11px;color:var(--pc-ink-400)">ID {{ d.id }}</span>
+                <i class="{{ d.ckIcon }}" style="font-size:14px;color:{{ d.ckColor }}"></i>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid var(--pc-ink-150);background:var(--pc-ink-50)">
+            <span style="font-size:11px;color:var(--pc-ink-400)">Same class only · opens a read-only comparison</span>
+            <div style="flex:1"></div>
+            <button onClick="{{ goListing }}" style="background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:6px;padding:7px 14px;font-size:12px;color:var(--pc-ink-700);cursor:pointer;font-family:inherit">Cancel</button>
+            <button onClick="{{ goCompare }}" style="background:var(--pc-purple);border:0;border-radius:6px;padding:8px 16px;font-size:12px;color:#fff;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px;font-family:inherit"><i class="icon-git-compare-arrows" style="font-size:13px"></i>Compare</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Comparison view" style="flex:1;min-height:0;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:10px;padding:14px 20px 0;flex:none">
+        <i class="icon-git-compare-arrows" style="font-size:17px;color:var(--pc-purple)"></i>
+        <span style="font-size:15px;font-weight:700">Compare objects</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-family:var(--pc-font-mono);font-size:10.5px;color:var(--pc-ink-500);background:var(--pc-ink-100);border:1px solid var(--pc-ink-150);border-radius:999px;padding:3px 10px">/studio/comparison?left={{ leftObj.id }}&amp;right={{ rightObj.id }}<i class="icon-copy" style="font-size:11px;cursor:pointer"></i></span>
+        <div style="flex:1"></div>
+        <span style="font-size:11px;color:var(--pc-ink-400)">Class: Product · read-only (v1)</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 44px 1fr;gap:10px;align-items:stretch;padding:10px 20px 12px;flex:none">
+        <div style="display:flex;gap:12px;align-items:center;background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:8px;padding:11px 14px;box-shadow:var(--pc-shadow-xs)">
+          <span style="width:36px;height:36px;border-radius:8px;background:var(--pc-purple-100);color:var(--pc-purple);display:flex;align-items:center;justify-content:center;flex:none"><i class="icon-package" style="font-size:16px"></i></span>
+          <span style="min-width:0;flex:1">
+            <span style="display:flex;align-items:center;gap:8px">
+              <span style="font-family:var(--pc-font-mono);font-size:13px;font-weight:700;color:var(--pc-ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ leftObj.key }}</span>
+              <span style="font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;flex:none;{{ leftObj.pubStyle }}">{{ leftObj.pubLb }}</span>
+            </span>
+            <span style="display:block;font-family:var(--pc-font-mono);font-size:11px;color:var(--pc-ink-500);margin-top:1px">{{ leftObj.path }}</span>
+            <span style="display:block;font-size:11px;color:var(--pc-ink-400);margin-top:1px">ID {{ leftObj.id }} · modified {{ leftObj.mod }} · {{ leftObj.by }}</span>
+          </span>
+          <span style="font-size:9.5px;font-weight:700;letter-spacing:0.1em;color:var(--pc-ink-300)">LEFT</span>
+        </div>
+        <button onClick="{{ swap }}" title="Swap sides" style="align-self:center;width:36px;height:36px;border-radius:50%;border:1px solid var(--pc-border);background:var(--pc-bg-1);color:var(--pc-ink-600);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--pc-shadow-xs);margin:0 auto"><i class="icon-arrow-left-right" style="font-size:14px"></i></button>
+        <div style="display:flex;gap:12px;align-items:center;background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:8px;padding:11px 14px;box-shadow:var(--pc-shadow-xs)">
+          <span style="width:36px;height:36px;border-radius:8px;background:var(--pc-ink-100);color:var(--pc-ink-500);display:flex;align-items:center;justify-content:center;flex:none"><i class="icon-package" style="font-size:16px"></i></span>
+          <span style="min-width:0;flex:1">
+            <span style="display:flex;align-items:center;gap:8px">
+              <span style="font-family:var(--pc-font-mono);font-size:13px;font-weight:700;color:var(--pc-ink-900);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ rightObj.key }}</span>
+              <span style="font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;flex:none;{{ rightObj.pubStyle }}">{{ rightObj.pubLb }}</span>
+            </span>
+            <span style="display:block;font-family:var(--pc-font-mono);font-size:11px;color:var(--pc-ink-500);margin-top:1px">{{ rightObj.path }}</span>
+            <span style="display:block;font-size:11px;color:var(--pc-ink-400);margin-top:1px">ID {{ rightObj.id }} · modified {{ rightObj.mod }} · {{ rightObj.by }}</span>
+          </span>
+          <span style="font-size:9.5px;font-weight:700;letter-spacing:0.1em;color:var(--pc-ink-300)">RIGHT</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 20px;border-top:1px solid var(--pc-ink-150);border-bottom:1px solid var(--pc-ink-150);background:var(--pc-bg-1);flex:none">
+        <div style="display:flex;background:var(--pc-ink-100);border-radius:6px;padding:2px;gap:2px">
+          <sc-for list="{{ filterOpts }}" as="f" hint-placeholder-count="3">
+            <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.lb }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;border:1px solid var(--pc-border);border-radius:6px;padding:5px 10px;flex:1 1 120px;max-width:190px;min-width:90px;background:var(--pc-bg-1)">
+          <i class="icon-search" style="font-size:12px;color:var(--pc-ink-400)"></i>
+          <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="Filter fields…" style="border:0;outline:none;font-size:12px;flex:1;font-family:inherit;color:var(--pc-ink-800);background:transparent;min-width:0">
+        </div>
+        <div style="display:flex;align-items:center;gap:5px">
+          <span style="font-size:10.5px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--pc-ink-400)">Languages</span>
+          <sc-for list="{{ langChips }}" as="lg" hint-placeholder-count="3">
+            <button onClick="{{ lg.onClick }}" style="{{ lg.style }}">{{ lg.code }}</button>
+          </sc-for>
+        </div>
+        <div style="flex:1"></div>
+        <button onClick="{{ expandAll }}" title="Expand all" style="width:28px;height:28px;border:1px solid var(--pc-border);border-radius:6px;background:var(--pc-bg-1);color:var(--pc-ink-500);cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="icon-unfold-vertical" style="font-size:13px"></i></button>
+        <button onClick="{{ collapseAll }}" title="Collapse all" style="width:28px;height:28px;border:1px solid var(--pc-border);border-radius:6px;background:var(--pc-bg-1);color:var(--pc-ink-500);cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="icon-fold-vertical" style="font-size:13px"></i></button>
+        <div style="width:1px;height:20px;background:var(--pc-ink-150)"></div>
+        <div style="position:relative">
+          <button onClick="{{ toggleExport }}" style="background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--pc-ink-700);cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:500;font-family:inherit"><i class="icon-download" style="font-size:13px"></i>Export<i class="icon-chevron-down" style="font-size:11px;color:var(--pc-ink-400)"></i></button>
+          <sc-if value="{{ exportOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:calc(100% + 6px);right:0;width:232px;background:var(--pc-bg-1);border:1px solid var(--pc-border);border-radius:8px;box-shadow:var(--pc-shadow-lg);padding:5px;z-index:30">
+              <button onClick="{{ expXlsx }}" style="display:flex;align-items:center;gap:9px;width:100%;border:0;background:transparent;padding:8px 10px;font-size:12px;color:var(--pc-ink-800);cursor:pointer;border-radius:5px;font-family:inherit;text-align:left" style-hover="background:var(--pc-ink-100)"><i class="icon-file-spreadsheet" style="font-size:14px;color:var(--pc-success)"></i>Export as XLSX</button>
+              <button onClick="{{ expJson }}" style="display:flex;align-items:center;gap:9px;width:100%;border:0;background:transparent;padding:8px 10px;font-size:12px;color:var(--pc-ink-800);cursor:pointer;border-radius:5px;font-family:inherit;text-align:left" style-hover="background:var(--pc-ink-100)"><i class="icon-file-json" style="font-size:14px;color:var(--pc-info)"></i>Export as JSON</button>
+              <div style="font-size:10.5px;color:var(--pc-ink-400);padding:6px 10px 5px;border-top:1px solid var(--pc-ink-150);margin-top:4px">Exports the current filtered view · honors permissions</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      <div style="flex:1;overflow:auto;min-height:0;background:var(--pc-bg-1)">
+        <div style="position:sticky;top:0;z-index:10;display:grid;grid-template-columns:260px 1fr 1fr 130px;background:var(--pc-bg-2);border-bottom:1px solid var(--pc-border);font-size:10.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--pc-ink-400)">
+          <span style="padding:7px 14px">Field</span>
+          <span style="padding:7px 14px;border-left:1px solid var(--pc-ink-150);display:flex;gap:7px;align-items:center"><span style="color:var(--pc-ink-300)">Left</span><span style="font-family:var(--pc-font-mono);text-transform:none;letter-spacing:0;color:var(--pc-ink-600)">{{ leftObj.key }}</span></span>
+          <span style="padding:7px 14px;border-left:1px solid var(--pc-ink-150);display:flex;gap:7px;align-items:center"><span style="color:var(--pc-ink-300)">Right</span><span style="font-family:var(--pc-font-mono);text-transform:none;letter-spacing:0;color:var(--pc-ink-600)">{{ rightObj.key }}</span></span>
+          <span style="padding:7px 14px;border-left:1px solid var(--pc-ink-150)">Status</span>
+        </div>
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="10">
+          <div>
+            <sc-if value="{{ r.sec }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ r.toggle }}" style="display:flex;align-items:center;gap:8px;padding:7px 14px;background:var(--pc-ink-100);border-top:1px solid var(--pc-ink-150);cursor:pointer">
+                <i class="{{ r.chev }}" style="font-size:12px;color:var(--pc-ink-500)"></i>
+                <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--pc-purple)">{{ r.label }}</span>
+                <sc-if value="{{ r.tag }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--pc-ink-200);color:var(--pc-ink-500);background:var(--pc-bg-1)">{{ r.tag }}</span></sc-if>
+                <span style="flex:1"></span>
+                <span style="font-size:11px;color:var(--pc-ink-500)">{{ r.countTxt }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.item }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ r.toggle }}" style="display:flex;align-items:center;gap:7px;padding:6px 14px 6px 28px;background:var(--pc-ink-50);border-top:1px solid var(--pc-ink-150);cursor:pointer">
+                <i class="{{ r.chev }}" style="font-size:11px;color:var(--pc-ink-400)"></i>
+                <i class="icon-layers" style="font-size:12px;color:var(--pc-purple)"></i>
+                <span style="font-size:11.5px;font-weight:600;color:var(--pc-ink-700)">{{ r.label }}</span>
+                <sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:999px;letter-spacing:0.04em;text-transform:uppercase;{{ r.badgeStyle }}">{{ r.badge }}</span></sc-if>
+                <span style="font-size:10.5px;color:var(--pc-ink-400)">{{ r.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.field }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:260px 1fr 1fr 130px;border-top:1px solid var(--pc-ink-150);background:{{ r.bg }}">
+                <div style="padding:{{ r.pad }};padding-left:{{ r.indent }};min-width:0">
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                    <span style="font-size:12px;font-weight:600;color:var(--pc-ink-700)">{{ r.label }}</span>
+                    <sc-if value="{{ r.lang }}" hint-placeholder-val="{{ false }}"><span style="font-family:var(--pc-font-mono);font-size:9px;font-weight:600;letter-spacing:0.06em;padding:1px 5px;border:1px solid var(--pc-ink-200);border-radius:4px;color:var(--pc-ink-500);background:var(--pc-bg-1)">{{ r.lang }}</span></sc-if>
+                  </div>
+                  <sc-if value="{{ r.note }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;color:var(--pc-ink-400);margin-top:2px">{{ r.note }}</div></sc-if>
+                  <sc-if value="{{ r.meta }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;color:var(--pc-ink-500);margin-top:2px;font-weight:500">{{ r.meta }}</div></sc-if>
+                </div>
+                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                  <div style="padding:{{ r.pad }};border-left:1px solid var(--pc-ink-150);min-width:0;font-size:12.5px;line-height:1.55;color:var(--pc-ink-800)">
+                    <sc-if value="{{ c.kText }}" hint-placeholder-val="{{ true }}"><span style="{{ c.ws }}">{{ c.text }}</span></sc-if>
+                    <sc-if value="{{ c.kTok }}" hint-placeholder-val="{{ false }}">
+                      <span style="{{ c.ws }}"><sc-for list="{{ c.tokens }}" as="t" hint-placeholder-count="3"><span style="{{ t.style }}">{{ t.s }}</span></sc-for></span>
+                    </sc-if>
+                    <sc-if value="{{ c.kChips }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:flex;flex-wrap:wrap;gap:5px"><sc-for list="{{ c.chips }}" as="ch" hint-placeholder-count="3"><span style="{{ ch.style }}"><i class="{{ ch.icon }}" style="font-size:11px"></i>{{ ch.lb }}</span></sc-for></span>
+                    </sc-if>
+                    <sc-if value="{{ c.kImg }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:flex;gap:10px;align-items:center">
+                        <span style="width:62px;height:46px;border-radius:6px;background:{{ c.img.grad }};display:flex;align-items:center;justify-content:center;border:1px solid var(--pc-ink-200);flex:none"><i class="icon-image" style="color:rgba(255,255,255,0.92);font-size:15px"></i></span>
+                        <span style="min-width:0">
+                          <span style="display:block;font-family:var(--pc-font-mono);font-size:11px;color:var(--pc-ink-700);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.img.path }}</span>
+                          <span style="display:block;font-size:11px;color:var(--pc-ink-400)">Asset ID {{ c.img.id }}</span>
+                        </span>
+                      </span>
+                    </sc-if>
+                    <sc-if value="{{ c.kLock }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-flex;align-items:center;gap:6px;color:var(--pc-ink-400);font-style:italic;font-size:12px"><i class="icon-lock" style="font-size:12px"></i>Value withheld</span>
+                    </sc-if>
+                    <sc-if value="{{ c.kErr }}" hint-placeholder-val="{{ false }}">
+                      <span style="display:inline-flex;align-items:center;gap:6px;color:var(--pc-danger);font-size:12px"><i class="icon-circle-alert" style="font-size:12px"></i>{{ c.text }}</span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+                <div style="padding:{{ r.pad }};border-left:1px solid var(--pc-ink-150);display:flex;align-items:flex-start;gap:6px">
+                  <i class="{{ r.stIcon }}" style="font-size:12px;color:{{ r.stColor }};margin-top:2px"></i>
+                  <span style="font-size:11px;font-weight:600;color:{{ r.stColor }}">{{ r.stLabel }}</span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:48px 20px;text-align:center;color:var(--pc-ink-400);font-size:13px">No fields match the current filter.</div>
+        </sc-if>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:9px 20px;border-top:1px solid var(--pc-border);background:var(--pc-bg-1);font-size:12px;flex:none">
+        <i class="icon-chart-pie" style="font-size:13px;color:var(--pc-purple)"></i>
+        <span style="font-weight:700;color:var(--pc-ink-900)">{{ summary }}</span>
+        <span style="color:var(--pc-ink-500)">{{ summaryDetail }}</span>
+        <div style="flex:1"></div>
+        <span style="font-size:11px;color:var(--pc-ink-400)">Computed server-side · permissions enforced · nothing persisted</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:56px;left:50%;transform:translateX(-50%);background:#0c0a14;color:#fff;font-size:12px;padding:10px 16px;border-radius:8px;box-shadow:var(--pc-shadow-lg);display:flex;align-items:center;gap:8px;z-index:50;animation:pc-toast-in 180ms cubic-bezier(0.2,0,0,1)">
+      <i class="icon-check" style="font-size:13px;color:#1f9d5c"></i>{{ toast }}
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;startView&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;comparison&quot;,&quot;listing&quot;,&quot;dialog&quot;],&quot;default&quot;:&quot;comparison&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;},
+  &quot;density&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;comfortable&quot;,&quot;compact&quot;],&quot;default&quot;:&quot;comfortable&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Diff table&quot;},
+  &quot;rowTint&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Diff table&quot;}
+}">
+class Component extends DCLogic {
+  state = { view: null, filter: "all", query: "", langs: {EN:true, DE:true, FR:true}, collapsed: {}, swapped: false, exportOpen: false, toast: null, dlgSel: 0 };
+
+  L = {key:"TRAIL-PRO-29-XL", path:"/Products/Bicycles/Mountain/", id:"4821", mod:"Jul 22, 2026 · 14:32", by:"Sara K.", pub:true};
+  R = {key:"trail-pro-29-xl-import", path:"/Imports/2026-07/", id:"7203", mod:"Jul 20, 2026 · 09:14", by:"Import job #88", pub:false};
+
+  DEL = "background:var(--pc-danger-bg);color:var(--pc-danger);text-decoration:line-through;border-radius:2px;padding:0 2px";
+  INS = "background:var(--pc-success-bg);color:#156a3e;text-decoration:underline;text-underline-offset:2px;border-radius:2px;padding:0 2px";
+  CHIP = "display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:500;line-height:1.4;";
+  get CHIP_KEPT(){ return this.CHIP + "background:var(--pc-bg-1);border:1px solid var(--pc-ink-200);color:var(--pc-ink-700)"; }
+  get CHIP_REM(){ return this.CHIP + "background:var(--pc-danger-bg);border:1px solid rgba(214,48,74,0.25);color:var(--pc-danger);text-decoration:line-through"; }
+  get CHIP_ADD(){ return this.CHIP + "background:var(--pc-success-bg);border:1px solid rgba(31,157,92,0.3);color:#156a3e"; }
+  get CHIP_MOV(){ return this.CHIP + "background:var(--pc-info-bg);border:1px solid rgba(37,99,235,0.25);color:var(--pc-info)"; }
+
+  ST = {
+    "equal":          {lb:"Equal", c:"var(--pc-ink-400)", icon:"icon-equal", bg:"transparent"},
+    "changed":        {lb:"Changed", c:"var(--pc-warning)", icon:"icon-pencil-line", bg:"rgba(217,119,6,0.055)"},
+    "only-left":      {lb:"Only left", c:"var(--pc-danger)", icon:"icon-arrow-left", bg:"rgba(214,48,74,0.045)"},
+    "only-right":     {lb:"Only right", c:"var(--pc-success)", icon:"icon-arrow-right", bg:"rgba(31,157,92,0.05)"},
+    "reordered":      {lb:"Reordered", c:"var(--pc-info)", icon:"icon-arrow-up-down", bg:"rgba(37,99,235,0.04)"},
+    "not-comparable": {lb:"Not comparable", c:"var(--pc-danger)", icon:"icon-circle-alert", bg:"rgba(214,48,74,0.08)"},
+    "hidden":         {lb:"Hidden", c:"var(--pc-ink-400)", icon:"icon-lock", bg:"repeating-linear-gradient(45deg,var(--pc-ink-100) 0px,var(--pc-ink-100) 8px,var(--pc-ink-50) 8px,var(--pc-ink-50) 16px)"}
+  };
+
+  SECTIONS = [
+    {id:"general", label:"General", rows:[
+      {label:"Product name", kind:"plain", status:"equal", l:"Trail Pro 29", r:"Trail Pro 29"},
+      {label:"SKU", kind:"inline", status:"changed", mono:true, tokens:[["e","TPR-29-XL"],["r","-IMP"]]},
+      {label:"GTIN / EAN", kind:"plain", status:"equal", mono:true, l:"4060000123456", r:"4060000123456"},
+      {label:"Published state", kind:"plain", status:"changed", l:"Published", r:"Draft"},
+      {label:"Manufacturer", kind:"chips", status:"equal", chips:[{lb:"Ridgeline Bikes", st:"kept"}]},
+      {label:"Weight", kind:"plain", status:"equal", l:"13.4 kg", r:"13.40 kg", note:"equal after numeric normalization"},
+      {label:"Release date", kind:"plain", status:"equal", mono:true, l:"2025-03-01", r:"2025-03-01"}
+    ]},
+    {id:"desc", label:"Descriptions", rows:[
+      {label:"Short description", loc:[
+        {lang:"EN", kind:"inline", status:"changed", tokens:[["e","All-mountain hardtail with 29″ wheels and "],["l","120 mm"],["r","130 mm"],["e"," travel"],["r"," and a slacker head angle"],["e","."]]},
+        {lang:"DE", kind:"plain", status:"equal", l:"All-Mountain-Hardtail mit 29″-Laufrädern und 130 mm Federweg.", r:"All-Mountain-Hardtail mit 29″-Laufrädern und 130 mm Federweg."},
+        {lang:"FR", kind:"plain", status:"only-left", l:"Semi-rigide all-mountain avec roues de 29″.", r:null, note:"translation gap on right object"}
+      ]},
+      {label:"Long description", note:"WYSIWYG · diffed on sanitized HTML", loc:[
+        {lang:"EN", kind:"inline", status:"changed", tokens:[["e","Built for technical singletrack. The Trail Pro 29 pairs a "],["l","lightweight alloy"],["r","hydroformed 6061 alloy"],["e"," frame with "],["r","a 130 mm fork and "],["e","aggressive trail geometry."]]},
+        {lang:"DE", kind:"plain", status:"equal", l:"Für technische Singletrails gebaut — aggressive Trail-Geometrie.", r:"Für technische Singletrails gebaut — aggressive Trail-Geometrie."}
+      ]}
+    ]},
+    {id:"pricing", label:"Pricing", rows:[
+      {label:"MSRP", kind:"plain", status:"changed", mono:true, l:"€ 3 499.00", r:"€ 3 299.00"},
+      {label:"Wholesale price", kind:"plain", status:"only-left", mono:true, l:"€ 2 099.00", r:null},
+      {label:"Purchase price", kind:"hidden", status:"hidden", note:"hidden by field-level permissions"}
+    ]},
+    {id:"relations", label:"Relations", rows:[
+      {label:"Accessories", kind:"chips", status:"changed", meta:"2 added · 1 removed · 2 kept", chips:[
+        {lb:"Bottle Cage Ti", st:"kept"},{lb:"Tubeless Kit 29", st:"kept"},{lb:"Mudguard Set", st:"left"},{lb:"Dropper Post 150", st:"right"},{lb:"Frame Protection Kit", st:"right"}]},
+      {label:"Related products", kind:"chips", status:"reordered", meta:"order changed only — filterable as noise", chips:[{lb:"Trail Pro 27.5", st:"moved"},{lb:"Trail Pro 29 · L", st:"moved"}]},
+      {label:"Spare parts", kind:"chips", status:"equal", chips:[{lb:"Derailleur hanger DH-12", st:"kept"},{lb:"Thru axle 148", st:"kept"}]}
+    ]},
+    {id:"media", label:"Media", rows:[
+      {label:"Main image", kind:"image", status:"changed", note:"asset ID differs — binary hash check is P2",
+        li:{path:"/products/trail-pro/hero-v2.jpg", id:"901", grad:"linear-gradient(135deg,#b89ae3,#6428B4)"},
+        ri:{path:"/imports/img/trail_pro_final.jpg", id:"1188", grad:"linear-gradient(135deg,#8e889a,#4a4458)"}},
+      {label:"Gallery", kind:"plain", status:"equal", l:"8 assets", r:"8 assets"}
+    ]},
+    {id:"specs", label:"Technical specs", tag:"Field collection", items:[
+      {id:"specs0", label:"Item #0 · Frame", note:"matched by index (v1)", rows:[
+        {label:"Material", kind:"plain", status:"equal", l:"Alloy 6061", r:"Alloy 6061"},
+        {label:"Frame size", kind:"plain", status:"changed", l:"XL · 21″", r:"XL"}
+      ]},
+      {id:"specs1", label:"Item #1 · Suspension", st:"only-right", note:"item exists on right only", rows:[
+        {label:"Fork", kind:"plain", status:"only-right", l:null, r:"RockShox Pike"},
+        {label:"Travel", kind:"plain", status:"only-right", l:null, r:"130 mm"}
+      ]}
+    ]},
+    {id:"seo", label:"SEO", tag:"Object brick", rows:[
+      {label:"Meta title", kind:"inline", status:"changed", tokens:[["e","Trail Pro 29 — "],["l","Mountain Bike"],["r","All-Mountain Hardtail"],["e"," | Ridgeline"]]},
+      {label:"Meta description", kind:"plain", status:"equal", l:"Discover the Trail Pro 29 — trail geometry, 29″ wheels, ready for anything.", r:"Discover the Trail Pro 29 — trail geometry, 29″ wheels, ready for anything."}
+    ]},
+    {id:"cstore", label:"Drivetrain", tag:"Classification store", rows:[
+      {label:"Gears", kind:"plain", status:"equal", l:"1 × 12", r:"1 × 12"},
+      {label:"Groupset", kind:"plain", status:"changed", l:"SRAM GX Eagle", r:"SRAM NX Eagle"},
+      {label:"Chain length", kind:"notcomp", status:"not-comparable", l:"118 links", errText:"Calculated value failed on this object", note:"calculated field errored on one side"}
+    ]}
+  ];
+
+  get vw(){ return this.state.view ?? (this.props.startView ?? "comparison"); }
+
+  dispStatus(st){
+    if(!this.state.swapped) return st;
+    return st === "only-left" ? "only-right" : st === "only-right" ? "only-left" : st;
+  }
+
+  expandLeaves(row){
+    if(!row.loc) return [row];
+    return row.loc.map(lr => ({...lr, label: row.label, note: lr.note ?? row.note, meta: row.meta, mono: lr.mono ?? row.mono}));
+  }
+
+  forEachLeaf(cb){
+    for(const s of this.SECTIONS){
+      const groups = s.items || [{id: s.id + "g", rows: s.rows}];
+      for(const g of groups) for(const row of g.rows) for(const leaf of this.expandLeaves(row)) cb(s, g, leaf);
+    }
+  }
+
+  buildCells(leaf){
+    const sw = this.state.swapped;
+    const mk = o => ({kText:false, kTok:false, kChips:false, kImg:false, kLock:false, kErr:false, ws:"", ...o});
+    const monoWs = leaf.mono ? "font-family:var(--pc-font-mono);font-size:12px" : "";
+    const txt = v => v == null ? mk({kText:true, text:"—", ws:"color:var(--pc-ink-300)"}) : mk({kText:true, text:v, ws:monoWs});
+    let lc, rc;
+    const k = leaf.kind;
+    if(k === "plain"){ lc = txt(leaf.l); rc = txt(leaf.r); if(sw){ const t = lc; lc = rc; rc = t; } }
+    else if(k === "inline"){
+      const lu = sw ? "r" : "l", ru = sw ? "l" : "r";
+      lc = mk({kTok:true, ws:monoWs, tokens: leaf.tokens.filter(t => t[0] === "e" || t[0] === lu).map(t => ({s:t[1], style:t[0] === "e" ? "" : this.DEL}))});
+      rc = mk({kTok:true, ws:monoWs, tokens: leaf.tokens.filter(t => t[0] === "e" || t[0] === ru).map(t => ({s:t[1], style:t[0] === "e" ? "" : this.INS}))});
+    }
+    else if(k === "chips"){
+      const lu = sw ? "right" : "left", ru = sw ? "left" : "right";
+      const view = (c, uniq, cls, icon) => ({lb:c.lb, style: c.st === uniq ? cls : c.st === "moved" ? this.CHIP_MOV : this.CHIP_KEPT, icon: c.st === uniq ? icon : c.st === "moved" ? "icon-arrow-up-down" : "icon-package"});
+      lc = mk({kChips:true, chips: leaf.chips.filter(c => c.st !== ru).map(c => view(c, lu, this.CHIP_REM, "icon-minus"))});
+      rc = mk({kChips:true, chips: leaf.chips.filter(c => c.st !== lu).map(c => view(c, ru, this.CHIP_ADD, "icon-plus"))});
+    }
+    else if(k === "image"){ let a = leaf.li, b = leaf.ri; if(sw){ const t = a; a = b; b = t; } lc = mk({kImg:true, img:a}); rc = mk({kImg:true, img:b}); }
+    else if(k === "hidden"){ lc = mk({kLock:true}); rc = mk({kLock:true}); }
+    else { lc = leaf.l != null ? txt(leaf.l) : txt(null); rc = mk({kErr:true, text: leaf.errText || "Calculation failed"}); if(sw){ const t = lc; lc = rc; rc = t; } }
+    return [lc, rc];
+  }
+
+  mkToggle(id){ return () => this.setState(s => ({collapsed: {...s.collapsed, [id]: !s.collapsed[id]}})); }
+
+  showToast(msg){
+    clearTimeout(this._tt);
+    this.setState({toast: msg, exportOpen: false});
+    this._tt = setTimeout(() => this.setState({toast: null}), 2800);
+  }
+
+  componentWillUnmount(){ clearTimeout(this._tt); }
+
+  renderVals(){
+    const S = this.state;
+    const vw = this.vw;
+    const fm = S.filter;
+    const q = S.query.trim().toLowerCase();
+    const tint = this.props.rowTint ?? true;
+    const compact = (this.props.density ?? "comfortable") === "compact";
+    const pad = compact ? "5px 14px" : "9px 14px";
+
+    let total = 0, differ = 0, hiddenN = 0, notcompN = 0, equalN = 0;
+    this.forEachLeaf((s, g, leaf) => {
+      if(leaf.status === "hidden"){ hiddenN++; return; }
+      total++;
+      if(leaf.status === "equal") equalN++;
+      else if(leaf.status === "not-comparable") notcompN++;
+      else differ++;
+    });
+
+    const visible = leaf => {
+      if(leaf.lang && !S.langs[leaf.lang]) return false;
+      if(q && !leaf.label.toLowerCase().includes(q)) return false;
+      const st = this.dispStatus(leaf.status);
+      if(fm === "diff") return st !== "equal" && st !== "hidden";
+      if(fm === "equal") return st === "equal";
+      return true;
+    };
+
+    const rows = [];
+    for(const s of this.SECTIONS){
+      const groups = (s.items || [{id: s.id + "g", rows: s.rows, ghost:true}]).map(g => ({...g, leaves: g.rows.flatMap(r => this.expandLeaves(r))}));
+      let sd = 0, stot = 0;
+      for(const g of groups) for(const lf of g.leaves){
+        if(lf.status === "hidden") continue;
+        stot++;
+        if(lf.status !== "equal" && lf.status !== "not-comparable") sd++;
+      }
+      const visGroups = groups.map(g => ({...g, vis: g.leaves.filter(visible)})).filter(g => g.vis.length > 0);
+      if(visGroups.length === 0) continue;
+      const secOpen = !S.collapsed[s.id];
+      rows.push({sec:true, item:false, field:false, label:s.label, tag:s.tag || "", countTxt: sd + " of " + stot + " differ", chev: secOpen ? "icon-chevron-down" : "icon-chevron-right", toggle: this.mkToggle(s.id)});
+      if(!secOpen) continue;
+      for(const g of visGroups){
+        let depth = 0;
+        if(!g.ghost){
+          depth = 1;
+          const itemOpen = !S.collapsed[g.id];
+          const badge = g.st === "only-right" ? (S.swapped ? "Only left" : "Only right") : g.st === "only-left" ? (S.swapped ? "Only right" : "Only left") : "";
+          const badgeStyle = badge.indexOf("right") > -1 ? "background:var(--pc-success-bg);color:#156a3e" : "background:var(--pc-danger-bg);color:var(--pc-danger)";
+          rows.push({sec:false, item:true, field:false, label:g.label, note:g.note || "", badge, badgeStyle, chev: itemOpen ? "icon-chevron-down" : "icon-chevron-right", toggle: this.mkToggle(g.id)});
+          if(!itemOpen) continue;
+        }
+        for(const leaf of g.vis){
+          const st = this.dispStatus(leaf.status);
+          const m = this.ST[st];
+          rows.push({sec:false, item:false, field:true, label:leaf.label, lang:leaf.lang || "", note:leaf.note || "", meta:leaf.meta || "", pad, indent: depth ? "40px" : "14px", bg: (st === "hidden" || tint) ? m.bg : "transparent", stLabel:m.lb, stColor:m.c, stIcon:m.icon, cells: this.buildCells(leaf)});
+        }
+      }
+    }
+
+    const lo = S.swapped ? this.R : this.L, ro = S.swapped ? this.L : this.R;
+    const deco = o => ({...o, pubLb: o.pub ? "Published" : "Draft", pubStyle: o.pub ? "background:var(--pc-success-bg);color:#156a3e" : "background:var(--pc-warning-bg);color:var(--pc-warning)"});
+
+    const segBase = "border:0;border-radius:5px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;";
+    const filterOpts = [["all", "All fields"], ["diff", "Differences only · " + (differ + notcompN)], ["equal", "Equal only · " + equalN]].map(([id, lb]) => ({
+      lb, onClick: () => this.setState({filter:id}),
+      style: segBase + (fm === id ? "background:var(--pc-bg-1);box-shadow:var(--pc-shadow-xs);color:var(--pc-ink-900);font-weight:600" : "background:transparent;color:var(--pc-ink-500);font-weight:500")
+    }));
+
+    const lgBase = "border-radius:999px;padding:3px 10px;font-size:10.5px;font-weight:600;cursor:pointer;font-family:var(--pc-font-mono);";
+    const langChips = ["EN", "DE", "FR"].map(code => ({
+      code, onClick: () => this.setState(s => ({langs: {...s.langs, [code]: !s.langs[code]}})),
+      style: lgBase + (S.langs[code] ? "background:var(--pc-purple-100);border:1px solid var(--pc-purple-300);color:var(--pc-purple)" : "background:var(--pc-bg-1);border:1px solid var(--pc-ink-200);color:var(--pc-ink-400)")
+    }));
+
+    const stepBase = "border-radius:6px;padding:5px 11px;font-size:11.5px;cursor:pointer;font-family:inherit;font-weight:500;";
+    const stepStyle = on => stepBase + (on ? "background:var(--pc-purple);border:1px solid var(--pc-purple);color:#fff;font-weight:600" : "background:transparent;border:1px solid #2c2738;color:#b8b3c0");
+
+    const gridData = [
+      {id:"4820", key:"TRAIL-PRO-275-M", name:"Trail Pro 27.5", sku:"TPR-275-M", pub:true, mod:"Jul 21, 2026", sel:false},
+      {id:"4821", key:"TRAIL-PRO-29-XL", name:"Trail Pro 29", sku:"TPR-29-XL", pub:true, mod:"Jul 22, 2026", sel:true},
+      {id:"5102", key:"RIDGE-SL-56", name:"Ridge SL", sku:"RSL-56", pub:true, mod:"Jul 18, 2026", sel:false},
+      {id:"7203", key:"trail-pro-29-xl-import", name:"Trail Pro 29 XL (Import)", sku:"TPR-29-XL-IMP", pub:false, mod:"Jul 20, 2026", sel:true},
+      {id:"7204", key:"trail-pro-275-m-import", name:"Trail Pro 27.5 M (Import)", sku:"TPR-275-M-IMP", pub:false, mod:"Jul 20, 2026", sel:false},
+      {id:"6011", key:"GRAVELINE-700", name:"Graveline 700", sku:"GRV-700", pub:true, mod:"Jul 12, 2026", sel:false}
+    ];
+    const gridRows = gridData.map(g => ({...deco(g),
+      rowStyle: "display:grid;grid-template-columns:36px 64px 1.4fr 1.2fr 1fr 110px 130px;align-items:center;border-top:1px solid var(--pc-ink-150);font-size:12.5px;color:var(--pc-ink-800);padding:0 4px;height:40px;" + (g.sel ? "background:var(--pc-purple-100)" : "background:var(--pc-bg-1)"),
+      ckStyle: "width:15px;height:15px;border-radius:4px;display:flex;align-items:center;justify-content:center;" + (g.sel ? "background:var(--pc-purple);color:#fff" : "border:1px solid var(--pc-ink-300);color:transparent;background:var(--pc-bg-1)"),
+      ckIcon: "icon-check"
+    }));
+
+    const miBase = "display:flex;align-items:center;gap:9px;width:100%;border:0;padding:8px 10px;font-size:12px;cursor:pointer;border-radius:5px;font-family:inherit;text-align:left;";
+    const noop = () => {};
+    const menuItems = [
+      {lb:"Open", icon:"icon-external-link", onClick:noop, style: miBase + "background:transparent;color:var(--pc-ink-800)"},
+      {lb:"Open in new tab", icon:"icon-app-window", onClick:noop, style: miBase + "background:transparent;color:var(--pc-ink-800)"},
+      {divider:true},
+      {lb:"Compare objects", icon:"icon-git-compare-arrows", hot:true, onClick: () => this.setState({view:"comparison"}), style: miBase + "background:var(--pc-purple-100);color:var(--pc-purple);font-weight:600"},
+      {divider:true},
+      {lb:"Export", icon:"icon-download", onClick:noop, style: miBase + "background:transparent;color:var(--pc-ink-800)"},
+      {lb:"Delete", icon:"icon-trash-2", onClick:noop, style: miBase + "background:transparent;color:var(--pc-danger)"}
+    ];
+
+    const dlgData = [
+      {key:"trail-pro-29-xl-import", name:"Trail Pro 29 XL (Import)", path:"/Imports/2026-07/", id:"7203"},
+      {key:"TRAIL-PRO-29-L", name:"Trail Pro 29 · L", path:"/Products/Bicycles/Mountain/", id:"4819"},
+      {key:"TRAIL-PRO-275-M", name:"Trail Pro 27.5", path:"/Products/Bicycles/Mountain/", id:"4820"},
+      {key:"trail-pro-275-m-import", name:"Trail Pro 27.5 M (Import)", path:"/Imports/2026-07/", id:"7204"}
+    ];
+    const dlgResults = dlgData.map((d, i) => ({...d,
+      onClick: () => this.setState({dlgSel: i}),
+      style: "display:flex;align-items:center;gap:11px;padding:9px 18px;cursor:pointer;border-top:1px solid var(--pc-ink-100);" + (S.dlgSel === i ? "background:var(--pc-purple-100)" : "background:var(--pc-bg-1)"),
+      ckIcon: S.dlgSel === i ? "icon-circle-check" : "icon-circle",
+      ckColor: S.dlgSel === i ? "var(--pc-purple)" : "var(--pc-ink-200)"
+    }));
+
+    return {
+      isListing: vw === "listing", isDialog: vw === "dialog", isCompare: vw === "comparison",
+      goListing: () => this.setState({view:"listing", exportOpen:false}),
+      goDialog: () => this.setState({view:"dialog", exportOpen:false}),
+      goCompare: () => this.setState({view:"comparison", exportOpen:false}),
+      step1Style: stepStyle(vw === "listing"), step2Style: stepStyle(vw === "dialog"), step3Style: stepStyle(vw === "comparison"),
+      leftObj: deco(lo), rightObj: deco(ro),
+      swap: () => this.setState(s => ({swapped: !s.swapped})),
+      rows, noRows: rows.length === 0,
+      filterOpts, langChips,
+      query: S.query, onQuery: e => this.setState({query: e.target.value}),
+      expandAll: () => this.setState({collapsed:{}}),
+      collapseAll: () => {
+        const c = {};
+        for(const s of this.SECTIONS){ c[s.id] = true; if(s.items) for(const it of s.items) c[it.id] = true; }
+        this.setState({collapsed: c});
+      },
+      exportOpen: S.exportOpen,
+      toggleExport: () => this.setState(s => ({exportOpen: !s.exportOpen})),
+      expXlsx: () => this.showToast("Export started — comparison_4821-7203.xlsx (current filtered view)"),
+      expJson: () => this.showToast("Export started — comparison_4821-7203.json (current filtered view)"),
+      summary: differ + " of " + total + " compared values differ",
+      summaryDetail: "· " + equalN + " equal · " + hiddenN + " hidden by permissions · " + notcompN + " not comparable",
+      gridRows, menuItems, dlgResults,
+      toast: S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

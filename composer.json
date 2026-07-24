@@ -1,0 +1,43 @@
+{
+    "name": "pimcore/comparison-bundle",
+    "description": "PimcoreComparisonBundle — compare two data objects of the same class side by side as a type-aware, filterable diff table inside Pimcore Studio. Read-only v1, stateless, permission-safe, extensible via a Comparator SPI.",
+    "type": "pimcore-bundle",
+    "license": "proprietary",
+    "keywords": ["pimcore", "studio", "comparison", "diff", "data-objects", "pim", "mdm"],
+    "authors": [
+        {
+            "name": "Pimcore",
+            "email": "info@pimcore.com"
+        }
+    ],
+    "require": {
+        "php": "~8.4.0 || ~8.5.0",
+        "pimcore/pimcore": "^2026.1",
+        "pimcore/studio-backend-bundle": "^2026.1",
+        "pimcore/studio-ui-bundle": "^2026.1",
+        "symfony/dependency-injection": "^6.4 || ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pimcore\\Bundle\\ComparisonBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pimcore\\Bundle\\ComparisonBundle\\Tests\\": "tests/phpunit/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "pimcore": {
+            "bundles": [
+                "Pimcore\\Bundle\\ComparisonBundle\\PimcoreComparisonBundle"
+            ]
+        }
+    }
+}

@@ -1,0 +1,32 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $normalizationConfig: '%pimcore_comparison.normalization%'
+            $excludedFields: '%pimcore_comparison.excluded_fields%'
+
+    # Auto-register every service class under src/, excluding interfaces/abstracts (auto-skipped) and
+    # the pure value objects / config holders (non-autowirable constructors).
+    Pimcore\Bundle\ComparisonBundle\:
+        resource: '../src/*'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Dto/'
+            - '../src/Diff/'
+            - '../src/Security/ComparisonPermissions.php'
+            - '../src/Controller/'
+            - '../src/Comparison/DiffResult.php'
+            - '../src/Comparison/WalkedField.php'
+            - '../src/Comparison/ComparisonException.php'
+            - '../src/Comparator/ComparisonContext.php'
+
+    # Controllers: explicit service args so #[MapQueryString]/#[MapRequestPayload] resolve, and so the
+    # broad ../src/* prototype above does not re-register them without the controller tag.
+    Pimcore\Bundle\ComparisonBundle\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # Installer must be public so the bundle manager can fetch it.
+    Pimcore\Bundle\ComparisonBundle\Installer:
+        public: true

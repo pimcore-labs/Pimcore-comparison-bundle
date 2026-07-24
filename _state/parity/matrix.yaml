@@ -1,0 +1,128 @@
+# SEED — hand-authored from _specs/base-idea.md + _specs/design-concept + _specs/requirements.md.
+# Not generated. Will be REPLACED by `comparison:parity:state` once the parity generator is ported.
+# Greenfield: no legacy surface, so this is a capability/acceptance matrix — all rows planned, all ids unclaimed.
+rows:
+  - area: "Entry"
+    capability: "Grid multi-select → Compare objects"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-001: unclaimed
+  - area: "Entry"
+    capability: "\"Compare with…\" dialog (same-class search)"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-002: unclaimed
+  - area: "Entry"
+    capability: "Deep link /studio/comparison?left&right (+ copy)"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-003: unclaimed
+      E2E-CMP-023: unclaimed
+  - area: "Diff table"
+    capability: "Filters: all / differences-only / equal-only + field filter"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-004: unclaimed
+      E2E-CMP-005: unclaimed
+  - area: "Diff table"
+    capability: "Inline text diff (+ WYSIWYG sanitized)"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-006: unclaimed
+      E2E-CMP-007: unclaimed
+  - area: "Diff table"
+    capability: "Localized per-language sub-rows"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-008: unclaimed
+  - area: "Diff table"
+    capability: "Relations: added / removed / kept / reordered"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-009: unclaimed
+      E2E-CMP-010: unclaimed
+  - area: "Diff table"
+    capability: "Containers: field-collection / object-brick / classification-store"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-011: unclaimed
+      E2E-CMP-012: unclaimed
+      E2E-CMP-013: unclaimed
+  - area: "Diff table"
+    capability: "Image / asset field (thumbnail + id/path)"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-014: unclaimed
+  - area: "Diff table"
+    capability: "Swap + expand/collapse + summary + empty state"
+    surface: frontend
+    status: planned
+    tests:
+      E2E-CMP-017: unclaimed
+      E2E-CMP-018: unclaimed
+      E2E-CMP-021: unclaimed
+      E2E-CMP-022: unclaimed
+  - area: "Export"
+    capability: "XLSX / JSON of the filtered, permissioned view"
+    surface: backend
+    status: planned
+    tests:
+      E2E-CMP-019: unclaimed
+      E2E-CMP-020: unclaimed
+      T-SEC-006: unclaimed
+  - area: "Security"
+    capability: "View permission required on both objects"
+    surface: backend
+    status: planned
+    tests:
+      T-SEC-001: unclaimed
+  - area: "Security"
+    capability: "Field-level permission masking (hidden rows)"
+    surface: backend
+    status: planned
+    tests:
+      T-SEC-002: unclaimed
+      E2E-CMP-015: unclaimed
+  - area: "Security"
+    capability: "plugin_comparison gate"
+    surface: backend
+    status: planned
+    tests:
+      T-SEC-003: unclaimed
+  - area: "Security"
+    capability: "Stateless + no write route (read-only v1)"
+    surface: backend
+    status: planned
+    tests:
+      T-SEC-004: unclaimed
+      T-SEC-005: unclaimed
+  - area: "Security"
+    capability: "Same-class + Concrete guard"
+    surface: backend
+    status: planned
+    tests:
+      T-SEC-007: unclaimed
+  - area: "Core"
+    capability: "Not-comparable handling (calculated errors)"
+    surface: backend
+    status: planned
+    tests:
+      E2E-CMP-016: unclaimed
+  - area: "Architecture"
+    capability: "Import boundaries + @internal audit + frontend purity"
+    surface: backend
+    status: planned
+    tests:
+      T-ARCH-001: unclaimed
+      T-ARCH-002: unclaimed
+      T-ARCH-003: unclaimed
+problems:

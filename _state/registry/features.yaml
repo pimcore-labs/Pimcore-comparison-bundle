@@ -1,0 +1,500 @@
+# SEED — hand-authored from _specs/base-idea.md + _specs/requirements.md.
+# Not generated. Will be REPLACED by `comparison:features:state` once the registry generator is
+# ported (implementation plan, Phase 7). Do not treat as computed evidence.
+generator: 'comparison:features:state (seed — not yet run)'
+coveragePresent: false
+violations: {  }
+features:
+  core.comparison-service:
+    group: core
+    name: 'Comparison service'
+    description: 'Orchestrates a two-object diff: loads both, runs guards, walks the layout, assembles the result DTO.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - C-1
+      - C-5
+      - C-6
+      - FR-CMP-001
+      - FR-CMP-016
+    dependsOn: {  }
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparison\ComparisonService
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  core.field-walker:
+    group: core
+    name: 'Field walker'
+    description: 'Walks the class layout definition (panels/tabs/regions) collecting Data leaves while preserving section structure.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - C-2
+      - FR-CMP-002
+    dependsOn: {  }
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparison\FieldWalker
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  core.comparator-registry:
+    group: core
+    name: 'Comparator registry'
+    description: 'Resolves a field comparator per fieldtype from tagged services by priority; first supporting comparator wins; projects override with higher priority.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-003
+      - FR-CMP-023
+    dependsOn:
+      - core.comparison-service
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\ComparatorRegistry
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  core.normalization:
+    group: core
+    name: 'Normalization rules'
+    description: 'False-positive avoidance: trim-insensitive strings, numeric epsilon, date UTC/precision, empty-string vs null (configurable).'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-014
+    dependsOn:
+      - core.comparison-service
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparison\Normalizer
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  core.diff-result:
+    group: core
+    name: 'Diff result model'
+    description: 'The normalized FieldDiff DTO tree and the status taxonomy (equal/changed/only-left/only-right/reordered/not-comparable/hidden).'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-015
+    dependsOn:
+      - core.comparison-service
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Diff\FieldDiff
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.scalar:
+    group: comparators
+    name: 'Scalar comparator'
+    description: 'Diffs scalar fieldtypes (input, number, select, checkbox, date) with normalization-aware equality.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-004
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\ScalarComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.text-diff:
+    group: comparators
+    name: 'Text / WYSIWYG diff comparator'
+    description: 'Word/character-level inline diff for textual fields; WYSIWYG diffed on sanitized HTML with rendered + source toggle.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-005
+      - FR-CMP-006
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\TextDiffComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.relation:
+    group: comparators
+    name: 'Relation comparator'
+    description: 'Classifies related elements as added / removed / kept / reordered; reorder-only changes carry their own status flag.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-007
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\RelationComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.localized:
+    group: comparators
+    name: 'Localized fields comparator'
+    description: 'Diffs localized fields per language as one sub-row per enabled language; honours the global language filter.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-008
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\LocalizedFieldsComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.field-collection:
+    group: comparators
+    name: 'Field collection comparator'
+    description: 'Diffs field collections as expandable nested sections; items matched by index in v1 (stable-key matching is a later hook).'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps:
+      - 'Index-based item matching only in v1; stable-key matching deferred'
+    specRefs:
+      - FR-CMP-009
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\FieldCollectionComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.object-brick:
+    group: comparators
+    name: 'Object brick comparator'
+    description: 'Diffs object bricks as expandable nested sections over each brick type''s field definitions.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-010
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\ObjectBrickComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.classification-store:
+    group: comparators
+    name: 'Classification store comparator'
+    description: 'Diffs classification-store values by walking active groups and items (no core diff-preview override exists for this type).'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-011
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\ClassificationStoreComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.asset-field:
+    group: comparators
+    name: 'Asset / image field comparator'
+    description: 'Renders thumbnails side by side and checks asset id/path equality (binary hash comparison is P2).'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps:
+      - 'Binary hash comparison deferred to P2; v1 compares asset id/path'
+    specRefs:
+      - FR-CMP-013
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\AssetFieldComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  comparators.fallback:
+    group: comparators
+    name: 'Fallback comparator'
+    description: 'Last-resort comparator for unknown/custom fieldtypes using the fielddefinition getVersionPreview() render.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-012
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\FallbackComparator
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  api.rest:
+    group: api
+    name: 'Comparison REST API'
+    description: 'Studio REST endpoints: full diff (objects), counts (objects/summary), export (objects/export); OpenAPI-documented, ProblemDetails errors, section pagination.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-020
+      - FR-CMP-026
+      - FR-CMP-027
+      - FR-CMP-028
+    dependsOn:
+      - core.comparison-service
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Controller\ComparisonController
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  export.xlsx-json:
+    group: export
+    name: 'XLSX / JSON export'
+    description: 'Server-side export of the current filtered diff as XLSX and JSON, honouring the active filter and permission masking.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - C-3
+      - FR-CMP-021
+      - FR-CMP-022
+    dependsOn:
+      - api.rest
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Export\DiffExporter
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  ui.comparison-view:
+    group: ui
+    name: 'Comparison view + entry points'
+    description: 'Studio SDK plugin: grid multi-select "Compare objects" action, object-editor "Compare with…" dialog, the /studio/comparison deep link, swap + language selector.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-019
+      - FR-CMP-029
+      - FR-CMP-030
+      - FR-CMP-031
+      - FR-CMP-032
+    dependsOn:
+      - api.rest
+    since: '2026-07-24'
+    backendOnly: false
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Studio\Feature\ComparisonViewFeature
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  ui.diff-table:
+    group: ui
+    name: 'Diff table + filters'
+    description: 'Virtualized diff table with filters (all/differences-only/equal-only + field filter) and the summary bar.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-017
+      - FR-CMP-018
+    dependsOn:
+      - ui.comparison-view
+    since: '2026-07-24'
+    backendOnly: false
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Studio\Feature\DiffTableFeature
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  security.permissions:
+    group: security
+    name: 'Permissions & statelessness'
+    description: 'View-permission on both objects, server-side field-level layout masking (hidden), the plugin_comparison gate, no persistence, no write route, export honours the same filtering.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - C-2
+      - C-4
+      - T-SEC-001
+      - T-SEC-002
+      - T-SEC-003
+      - T-SEC-004
+      - T-SEC-005
+      - T-SEC-006
+      - T-SEC-007
+    dependsOn: {  }
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Security\ComparisonSecurity
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  extensibility.spi-events:
+    group: extensibility
+    name: 'Comparator SPI & events'
+    description: 'FieldComparatorInterface SPI plus PreComparisonEvent / PostComparisonEvent and bundle configuration (normalization toggles, excluded fields, default filter, export formats).'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps: {  }
+    specRefs:
+      - FR-CMP-024
+      - FR-CMP-025
+    dependsOn:
+      - core.comparator-registry
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Comparator\FieldComparatorInterface
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
+  platform.feature-registry:
+    group: platform
+    name: 'Feature registry discipline'
+    description: 'Declaration-is-authored / state-is-computed registry + parity + @internal audit generators, ported so _state is generated and git-diff-guarded.'
+    declared: planned
+    effective: planned
+    overclaim: false
+    unknown: false
+    openGaps:
+      - 'Ported in Phase 7; until then _state is a hand-authored seed'
+    specRefs:
+      - T-ARCH-002
+      - T-FEAT-001
+      - T-FEAT-002
+      - T-FEAT-003
+      - T-FEAT-004
+      - T-FEAT-005
+      - T-FEAT-006
+    dependsOn: {  }
+    since: '2026-07-24'
+    backendOnly: true
+    declaredIn: Pimcore\Bundle\ComparisonBundle\Feature\FeatureRegistry
+    phpunit:
+      passed: 0
+      failed: 0
+    playwright:
+      passed: 0
+      failed: 0
