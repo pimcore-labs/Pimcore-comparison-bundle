@@ -5,6 +5,8 @@ services:
         bind:
             $normalizationConfig: '%pimcore_comparison.normalization%'
             $excludedFields: '%pimcore_comparison.excluded_fields%'
+            $defaultFilter: '%pimcore_comparison.default_filter%'
+            $exportFormats: '%pimcore_comparison.export.formats%'
 
     # Auto-register every service class under src/, excluding interfaces/abstracts (auto-skipped) and
     # the pure value objects / config holders (non-autowirable constructors).
