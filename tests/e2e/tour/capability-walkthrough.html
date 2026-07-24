@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PimcoreComparisonBundle — capability walkthrough</title>
+<style>
+  :root{
+    --purple:#6428B4; --ink900:#0c0a14; --ink700:#2c2738; --ink500:#6b6479; --ink400:#8e889a;
+    --ink200:#ddd9e3; --ink150:#ebe8ef; --ink100:#f4f2f7; --bg:#faf9fc; --surface:#fff;
+    --success:#1f9d5c; --success-bg:#e6f6ee; --warning:#d97706; --warning-bg:#fdf3e3;
+    --danger:#d6304a; --danger-bg:#fbe6ea; --info:#2563eb; --info-bg:#e7efff;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --sans:'Inter','Helvetica Neue',Arial,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);font-family:var(--sans);color:var(--ink900);
+    display:flex;flex-direction:column;height:100vh;overflow:hidden}
+  .chrome{background:#0c0a14;color:#fff;display:flex;align-items:center;gap:12px;padding:10px 20px;flex:none}
+  .chrome .dot{width:10px;height:10px;border-radius:50%}
+  .title{font-size:13px;font-weight:600}
+  .sub{font-size:11px;color:#8e889a}
+  .wrap{flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 26px 0}
+  .head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .head .ic{width:24px;height:24px;border-radius:6px;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+  .head h1{font-size:16px;margin:0;font-weight:700}
+  .pill{font-family:var(--mono);font-size:11px;color:var(--ink500);background:var(--ink100);border:1px solid var(--ink150);border-radius:999px;padding:3px 10px}
+  .cards{display:grid;grid-template-columns:1fr 40px 1fr;gap:10px;margin-bottom:12px}
+  .card{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--ink200);border-radius:8px;padding:10px 12px}
+  .card . av{width:34px;height:34px;border-radius:8px;background:var(--ink100);color:var(--ink500);display:flex;align-items:center;justify-content:center;flex:none;font-size:15px}
+  .card.l .av{background:#efe9fa;color:var(--purple)}
+  .card .k{font-family:var(--mono);font-size:13px;font-weight:700}
+  .card .p{font-family:var(--mono);font-size:11px;color:var(--ink500)}
+  .badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.04em}
+  .badge.pub{background:var(--success-bg);color:#156a3e}
+  .badge.draft{background:var(--warning-bg);color:#8a5200}
+  .swap{align-self:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--ink200);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink500)}
+  .toolbar{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--ink150);border-bottom:1px solid var(--ink150)}
+  .seg{display:flex;background:var(--ink100);border-radius:6px;padding:2px;gap:2px}
+  .seg button{border:0;background:transparent;font:inherit;font-size:12px;padding:4px 12px;border-radius:5px;color:var(--ink500);cursor:pointer}
+  .seg button.on{background:#fff;color:var(--purple);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .filterbox{display:flex;align-items:center;gap:6px;border:1px solid var(--ink200);border-radius:6px;padding:4px 10px;color:var(--ink400);font-size:12px}
+  .exp{margin-left:auto;background:#fff;border:1px solid var(--ink200);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--ink700)}
+  .table{flex:1;min-height:0;overflow:hidden;background:var(--surface)}
+  .thead,.row{display:grid;grid-template-columns:250px 1fr 1fr 120px}
+  .thead{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--ink200);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink400)}
+  .thead span{padding:7px 14px;border-left:1px solid var(--ink150)}
+  .thead span:first-child{border-left:0}
+  .sec{padding:6px 14px;background:var(--ink100);border-top:1px solid var(--ink150);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--purple);display:flex;gap:8px;align-items:center}
+  .sec .tag{font-size:9px;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--ink200);color:var(--ink500);background:#fff;text-transform:none;letter-spacing:0}
+  .row{border-top:1px solid var(--ink150);transition:background .3s}
+  .row>div{padding:7px 14px;border-left:1px solid var(--ink150);font-size:12.5px;min-width:0}
+  .row>div:first-child{border-left:0;font-weight:600;color:var(--ink700)}
+  .row .lang{font-family:var(--mono);font-size:9px;padding:1px 5px;border:1px solid var(--ink200);border-radius:4px;color:var(--ink500);margin-left:6px}
+  .mono{font-family:var(--mono);font-size:12px}
+  .muted{color:var(--ink400)}
+  .del{background:var(--danger-bg);color:var(--danger);text-decoration:line-through;border-radius:2px;padding:0 2px}
+  .ins{background:var(--success-bg);color:#156a3e;text-decoration:underline;text-underline-offset:2px;border-radius:2px;padding:0 2px}
+  .chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:11px;margin:2px 3px 0 0}
+  .chip.kept{background:#fff;border:1px solid var(--ink200);color:var(--ink700)}
+  .chip.add{background:var(--success-bg);border:1px solid rgba(31,157,92,.3);color:#156a3e}
+  .chip.rem{background:var(--danger-bg);border:1px solid rgba(214,48,74,.25);color:var(--danger);text-decoration:line-through}
+  .chip.mov{background:var(--info-bg);border:1px solid rgba(37,99,235,.25);color:var(--info)}
+  .st{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600}
+  .st .d{width:8px;height:8px;border-radius:50%}
+  .st.equal{color:var(--ink400)} .st.equal .d{background:var(--ink400)}
+  .st.changed{color:var(--warning)} .st.changed .d{background:var(--warning)}
+  .st.only-left{color:var(--danger)} .st.only-left .d{background:var(--danger)}
+  .st.only-right{color:var(--success)} .st.only-right .d{background:var(--success)}
+  .st.reordered{color:var(--info)} .st.reordered .d{background:var(--info)}
+  .st.not-comparable{color:var(--danger)} .st.not-comparable .d{background:var(--danger)}
+  .st.hidden{color:var(--ink400)} .st.hidden .d{background:var(--ink300)}
+  .hiddenrow{background:repeating-linear-gradient(45deg,var(--ink100) 0 8px,#faf9fc 8px 16px)}
+  .footer{display:flex;align-items:center;gap:8px;padding:9px 26px;border-top:1px solid var(--ink200);background:var(--surface);font-size:12px;flex:none}
+  .footer b{font-weight:700}
+  .row.hide{display:none}
+  .flash{animation:fl 1.1s ease}
+  @keyframes fl{0%{background:#fff}30%{background:#fdf3e3}100%{background:#fff}}
+</style>
+</head>
+<body>
+  <div class="chrome">
+    <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>
+    <span class="title">Pimcore Studio — Compare objects</span>
+    <span class="sub">PimcoreComparisonBundle · read-only v1</span>
+  </div>
+  <div class="wrap">
+    <div class="head">
+      <span class="ic">≠</span><h1>Compare objects</h1>
+      <span class="pill" id="pill">/studio/comparison?left=4821&right=7203</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--ink400)">Class: Product · read-only</span>
+    </div>
+    <div class="cards">
+      <div class="card l"><span class="av">◧</span><span style="flex:1;min-width:0">
+        <span class="k">TRAIL-PRO-29-XL <span class="badge pub">Published</span></span>
+        <span class="p">/Products/Bicycles/Mountain/ · ID 4821</span></span><span style="font-size:9px;font-weight:700;color:var(--ink200)">LEFT</span></div>
+      <div class="swap">⇄</div>
+      <div class="card"><span class="av">◨</span><span style="flex:1;min-width:0">
+        <span class="k">trail-pro-29-xl-import <span class="badge draft">Draft</span></span>
+        <span class="p">/Imports/2026-07/ · ID 7203</span></span><span style="font-size:9px;font-weight:700;color:var(--ink200)">RIGHT</span></div>
+    </div>
+    <div class="toolbar">
+      <div class="seg"><button id="f-all">All fields</button><button id="f-diff" class="on">Differences only</button><button id="f-eq">Equal only</button></div>
+      <div class="filterbox">⌕ Filter fields…</div>
+      <div class="exp" id="exp">⭳ Export ▾</div>
+    </div>
+    <div class="table">
+      <div class="thead"><span>Field</span><span>Left · TRAIL-PRO-29-XL</span><span>Right · …import</span><span>Status</span></div>
+      <div id="rows"></div>
+    </div>
+  </div>
+  <div class="footer">◔ <b id="sumn">23 of 148 fields differ</b><span class="muted" id="sumd"> · 120 equal · 1 hidden · 1 not comparable</span>
+    <span style="margin-left:auto;font-size:11px;color:var(--ink400)">Computed server-side · permissions enforced · nothing persisted</span></div>
+
+<script>
+const R = [
+  {sec:'General'},
+  {f:'Product name',s:'equal',l:'Trail Pro 29',r:'Trail Pro 29'},
+  {f:'SKU',s:'changed',mono:1,tok:[['e','TPR-29-XL'],['ins','-IMP']]},
+  {f:'Published state',s:'changed',l:'Published',r:'Draft'},
+  {f:'Weight',s:'equal',l:'13.4 kg',r:'13.40 kg',note:'equal after numeric normalization'},
+  {sec:'Descriptions'},
+  {f:'Short description',lang:'EN',s:'changed',tok:[['e','All-mountain hardtail with '],['del','120 mm'],['ins','130 mm'],['e',' travel'],['ins',' and a slacker head angle'],['e','.']]},
+  {f:'Short description',lang:'FR',s:'only-left',l:'Semi-rigide all-mountain…',r:'—',note:'translation gap on the right object'},
+  {sec:'Pricing'},
+  {f:'MSRP',s:'changed',mono:1,l:'€ 3 499.00',r:'€ 3 299.00'},
+  {f:'Purchase price',s:'hidden'},
+  {sec:'Relations'},
+  {f:'Accessories',s:'changed',meta:'2 added · 1 removed · 2 kept',chips:[['Bottle Cage Ti','kept'],['Tubeless Kit 29','kept'],['Mudguard Set','rem'],['Dropper Post 150','add'],['Frame Protection','add']]},
+  {f:'Related products',s:'reordered',meta:'order changed only — filterable as noise',chips:[['Trail Pro 27.5','mov'],['Trail Pro 29 · L','mov']]},
+  {sec:'Media'},
+  {f:'Main image',s:'changed',l:'/products/trail-pro/hero-v2.jpg',r:'/imports/img/trail_pro_final.jpg',note:'asset id differs (binary hash is P2)'},
+  {sec:'Technical specs',tag:'Field collection'},
+  {f:'Item #1 · Fork',lang:null,s:'only-right',l:'—',r:'RockShox Pike',note:'item exists on right only'},
+  {sec:'Drivetrain',tag:'Classification store'},
+  {f:'Groupset',s:'changed',l:'SRAM GX Eagle',r:'SRAM NX Eagle'},
+  {f:'Chain length',s:'not-comparable',l:'118 links',r:'calculated value failed',note:'calculated field errored on one side'},
+];
+const cell = (v)=> v==null? '<span class="muted">—</span>' : v;
+const toks = (t)=> t.map(([k,s])=> k==='e'?`<span>${s}</span>`:k==='del'?`<span class="del">${s}</span>`:`<span class="ins">${s}</span>`).join('');
+function render(){
+  const el = document.getElementById('rows'); el.innerHTML='';
+  R.forEach((row,i)=>{
+    if(row.sec){ const d=document.createElement('div'); d.className='sec'; d.innerHTML = row.sec + (row.tag?` <span class="tag">${row.tag}</span>`:''); el.appendChild(d); return; }
+    const d=document.createElement('div'); d.className='row'; d.dataset.status=row.s;
+    const label = row.f + (row.lang?`<span class="lang">${row.lang}</span>`:'') + (row.note?`<div class="muted" style="font-size:10px;margin-top:2px">${row.note}</div>`:'');
+    let left,right;
+    if(row.s==='hidden'){ d.classList.add('hiddenrow'); left=right='<span class="muted">🔒 Value withheld</span>'; }
+    else if(row.chips){ const mk=(f)=>row.chips.filter(f).map(([t,c])=>`<span class="chip ${c}">${c==='add'?'＋':c==='rem'?'−':c==='mov'?'↕':''}${t}</span>`).join('');
+      left=`<div style="font-size:10px;color:var(--ink400);margin-bottom:2px">${row.meta}</div>`+mk(([,c])=>c!=='add'); right=mk(([,c])=>c!=='rem'); }
+    else if(row.tok){ const l=row.tok.filter(([k])=>k!=='ins'); const r=row.tok.filter(([k])=>k!=='del');
+      left=`<span class="${row.mono?'mono':''}">${toks(l)}</span>`; right=`<span class="${row.mono?'mono':''}">${toks(r)}</span>`; }
+    else { const c=row.mono?'mono':''; left=`<span class="${c}">${cell(row.l)}</span>`; right=`<span class="${c}">${cell(row.r)}</span>`; }
+    d.innerHTML = `<div>${label}</div><div>${left}</div><div>${right}</div><div><span class="st ${row.s}"><span class="d"></span>${row.s.replace('-',' ')}</span></div>`;
+    el.appendChild(d);
+  });
+}
+function setFilter(mode){
+  ['all','diff','eq'].forEach(m=>document.getElementById('f-'+m).classList.toggle('on',m===mode));
+  document.querySelectorAll('.row').forEach(r=>{
+    const s=r.dataset.status; const diff = s!=='equal'&&s!=='hidden';
+    r.classList.toggle('hide', mode==='diff'? !diff : mode==='eq'? diff : false);
+  });
+}
+render(); setFilter('diff');
+// Autoplay timeline for the recording.
+window.__play = async ()=>{
+  const wait=(ms)=>new Promise(r=>setTimeout(r,ms));
+  await wait(3500);
+  // flash the changed rows
+  document.querySelectorAll('.row[data-status="changed"]').forEach((r,i)=>setTimeout(()=>r.classList.add('flash'),i*250));
+  await wait(4500);
+  document.getElementById('exp').style.background='#efe9fa'; await wait(1500); document.getElementById('exp').style.background='';
+  setFilter('all'); document.querySelector('.table').scrollTop=0; await wait(4500);
+  // scroll through
+  const t=document.querySelector('.table'); for(let y=0;y<t.scrollHeight;y+=140){ t.scrollTop=y; await wait(500); }
+  await wait(1500); setFilter('diff'); await wait(3000);
+};
+</script>
+</body>
+</html>

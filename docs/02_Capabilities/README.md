@@ -46,14 +46,24 @@ Status is encoded by both colour and icon, so colour is never the only signal.
 - **Permission-safe** — element view-permission on both objects is required, and field-level layout
   permissions are enforced server-side; export honours the exact same filtering and masking.
 
-## Narrated capability walkthroughs
+## Narrated capability walkthrough
 
-Screen-by-screen narrated videos (recorded with Playwright, voiced with TTS) are generated into this
-folder by the tour pipeline once the Studio UI plugin is built:
+📹 **[`comparison-capability.mp4`](comparison-capability.mp4)** — a narrated walkthrough of the full
+capability: the two object headers, the type-aware diff table (scalars, inline text diff, per-language
+localized rows, relation chips added/removed/kept/reordered, field-collection / object-brick /
+classification-store sections, permission-hidden and not-comparable rows), the filters, export, and the
+summary bar.
 
-- `01-entry-and-compare-with.mp4` — the entry points and the Compare-with dialog
-- `02-comparison-walkthrough.mp4` — filters, inline text diff, relations, localized, swap
-- `03-permissions-and-not-comparable.mp4` — hidden fields and calculated-value handling
-- `04-export-and-deeplink.mp4` — export and the shareable deep link
+The video is produced by a re-runnable pipeline (Playwright records the walkthrough → macOS `say`
+voices the script → `ffmpeg` muxes):
 
-_(Videos are produced in Phase 8 after the frontend build; see the implementation plan.)_
+```bash
+cd tests/e2e
+npx playwright test --project=tour --grep 'capability-walkthrough render'   # → tour-recordings/**/video.webm
+scripts/build-capability-video.sh comparison-capability scripts/narration/comparison-capability.txt
+# → docs/02_Capabilities/comparison-capability.mp4
+```
+
+The narration script lives in `tests/e2e/scripts/narration/`; edit it and re-run to revoice. Additional
+per-flow videos (entry points, permissions, export) reuse the same pipeline with their own tour spec +
+narration script.

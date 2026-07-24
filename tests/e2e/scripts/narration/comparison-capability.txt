@@ -1,0 +1,7 @@
+Pimcore Comparison puts two data objects of the same class side by side.
+Every field is diffed by a type-aware comparator. Text shows a word-level
+inline diff. Relations are classified as added, removed, kept, or reordered.
+Localized fields compare per language, so translation gaps stand out. Field
+collections, bricks and the classification store nest as sections, and fields
+you may not see are withheld. Filter to differences, then export to Excel or
+JSON. Everything is computed server-side, permissions enforced, nothing persisted.

@@ -21,6 +21,22 @@ export default defineConfig({
     storageState: '.auth/state.json'
   },
   projects: [
-    { name: 'api', testMatch: /api\/.*\.spec\.ts/ }
+    { name: 'api', testMatch: /api\/.*\.spec\.ts/ },
+    // Screen-recording "tours" for the narrated capability videos (docs/02_Capabilities). NOT part of
+    // any gate. Video on, clean 16:10 viewport, slowMo for watchability. Recordings land in
+    // ./tour-recordings; scripts/gen-narration.mjs voices + muxes them into docs MP4s.
+    {
+      name: 'tour',
+      testMatch: /tour\/.*\.spec\.ts/,
+      outputDir: './tour-recordings',
+      use: {
+        headless: true,
+        channel: 'chromium',
+        viewport: { width: 1600, height: 1000 },
+        video: { mode: 'on', size: { width: 1600, height: 1000 } },
+        launchOptions: { slowMo: 300 },
+        actionTimeout: 20_000
+      }
+    }
   ]
 })
