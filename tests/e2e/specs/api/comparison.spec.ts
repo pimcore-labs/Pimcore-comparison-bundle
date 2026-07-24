@@ -1,14 +1,24 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type APIResponse } from '@playwright/test'
 
 const LEFT = () => Number(process.env.COMPARISON_LEFT ?? 5550)
 const RIGHT = () => Number(process.env.COMPARISON_RIGHT ?? 5551)
 const OBJECTS = () => `/pimcore-studio/api/comparison/objects?leftId=${LEFT()}&rightId=${RIGHT()}&filter=differences`
 
+/**
+ * Parse a JSON response, tolerating the Symfony DEV web-profiler artefact: with display_errors on, the
+ * profiler's LoggerDataCollector can append a `<!-- Warning: unserialize(): … -->` after the body. That
+ * is dev-environment noise, not part of the API payload (prod responses are clean), so we cut it off.
+ */
+async function readJson (res: APIResponse): Promise<any> {
+  const text = await res.text()
+  return JSON.parse(text.replace(/<!--[\s\S]*$/, '').trim())
+}
+
 test.describe('comparison REST API', () => {
   test('E2E-CMP-003 @feature:api.rest objects returns a same-class diff tree', async ({ request }) => {
     const res = await request.get(OBJECTS())
     expect(res.status()).toBe(200)
-    const body = await res.json()
+    const body = await readJson(res)
     expect(body.className).toBeTruthy()
     expect(body.leftId).toBe(LEFT())
     expect(body.rightId).toBe(RIGHT())
@@ -25,7 +35,7 @@ test.describe('comparison REST API', () => {
   test('E2E-CMP-021 @feature:api.rest objects/summary returns per-status counts', async ({ request }) => {
     const res = await request.get(`/pimcore-studio/api/comparison/objects/summary?leftId=${LEFT()}&rightId=${RIGHT()}`)
     expect(res.status()).toBe(200)
-    const body = await res.json()
+    const body = await readJson(res)
     expect(body.total).toBeGreaterThan(0)
     expect(body.counts).toHaveProperty('changed')
     expect(body.differing).toBeGreaterThanOrEqual(0)
@@ -57,7 +67,7 @@ test.describe('comparison REST API', () => {
       data: { leftId: LEFT(), rightId: RIGHT(), format: 'json', filter: 'all' }
     })
     expect(res.status()).toBe(200)
-    const body = await res.json()
+    const body = await readJson(res)
     expect(body.className).toBeTruthy()
     expect(Array.isArray(body.fields)).toBeTruthy()
   })
