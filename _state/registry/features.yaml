@@ -12,7 +12,7 @@ features:
     overclaim: false
     unknown: false
     openGaps:
-      - 'Verified via live HTTP smoke; API functional tests pending'
+      - 'Covered by Playwright API E2E (tests/e2e/specs/api); a PHPUnit functional test would promote it to beta'
     specRefs:
       - FR-CMP-020
       - FR-CMP-026
@@ -27,7 +27,7 @@ features:
       passed: 0
       failed: 0
     playwright:
-      passed: 0
+      passed: 6
       failed: 0
   comparators.asset-field:
     group: comparators
@@ -411,7 +411,7 @@ features:
     overclaim: false
     unknown: false
     openGaps:
-      - 'Frontend built in Phase 6; no Playwright evidence yet'
+      - 'Verified loading in Studio + Playwright shell-wiring check; full UI-interaction E2E is future work'
     specRefs:
       - FR-CMP-017
       - FR-CMP-018
@@ -429,5 +429,5 @@ features:
       passed: 0
       failed: 0
     playwright:
-      passed: 0
+      passed: 1
       failed: 0

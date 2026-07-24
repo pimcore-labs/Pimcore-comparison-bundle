@@ -18,7 +18,7 @@ use Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus;
     name: 'Comparison view + entry points',
     description: 'Studio SDK plugin: grid "Compare objects" action, Compare-with dialog, deep link, diff table + filters.',
     status: FeatureStatus::IN_PROGRESS,
-    openGaps: ['Frontend built in Phase 6; no Playwright evidence yet'],
+    openGaps: ['Verified loading in Studio + Playwright shell-wiring check; full UI-interaction E2E is future work'],
     specRefs: ['FR-CMP-017', 'FR-CMP-018', 'FR-CMP-019', 'FR-CMP-029', 'FR-CMP-030', 'FR-CMP-031', 'FR-CMP-032'],
     dependsOn: ['api.rest'],
     since: '2026-07-24',

@@ -2,6 +2,14 @@
 /vendor/
 /node_modules/
 assets/node_modules/
+tests/e2e/node_modules/
+
+# E2E transient (auth state, reports, recordings)
+tests/e2e/.auth/
+tests/e2e/pw.json
+tests/e2e/playwright-report/
+tests/e2e/test-results/
+tests/e2e/tour-recordings/
 
 # Build output
 /public/build/

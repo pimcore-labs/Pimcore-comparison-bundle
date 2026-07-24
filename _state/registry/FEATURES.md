@@ -4,7 +4,7 @@
 
 | Feature | Group | Status | PHPUnit | Playwright | Gaps |
 |---|---|---|---|---|---|
-| `api.rest` | api | in-progress | 0✓/0✗ | 0✓/0✗ | Verified via live HTTP smoke; API functional tests pending |
+| `api.rest` | api | in-progress | 0✓/0✗ | 6✓/0✗ | Covered by Playwright API E2E (tests/e2e/specs/api); a PHPUnit functional test would promote it to beta |
 | `comparators.asset-field` | comparators | beta | 6✓/0✗ | 0✓/0✗ | Binary hash comparison deferred to P2; v1 compares asset id/path |
 | `comparators.classification-store` | comparators | beta | 5✓/0✗ | 0✓/0✗ | — |
 | `comparators.fallback` | comparators | beta | 6✓/0✗ | 0✓/0✗ | — |
@@ -21,4 +21,4 @@
 | `export.xlsx-json` | export | beta | 5✓/0✗ | 0✓/0✗ | — |
 | `platform.feature-registry` | platform | beta | 6✓/0✗ | 0✓/0✗ | — |
 | `security.permissions` | security | in-progress | 0✓/0✗ | 0✓/0✗ | Element + field masking verified via live smoke; PHPUnit for the resolver pending |
-| `ui.comparison-view` | ui | in-progress | 0✓/0✗ | 0✓/0✗ | Frontend built in Phase 6; no Playwright evidence yet |
+| `ui.comparison-view` | ui | in-progress | 0✓/0✗ | 1✓/0✗ | Verified loading in Studio + Playwright shell-wiring check; full UI-interaction E2E is future work |
