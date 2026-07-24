@@ -9,6 +9,7 @@ namespace Pimcore\Bundle\ComparisonBundle\Comparison;
  * trim-insensitivity, a numeric epsilon, empty-string-vs-null coercion, and UTC date comparison.
  * Injected via the `$normalizationConfig` bind so projects tune it per deployment.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'core.normalization', group: 'core', name: 'Normalization rules', description: 'False-positive avoidance: trim, numeric epsilon, UTC dates, empty-string vs null.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-014'], dependsOn: ['core.comparison-service'], since: '2026-07-24', backendOnly: true)]
 final class Normalizer
 {
     private bool $trim;

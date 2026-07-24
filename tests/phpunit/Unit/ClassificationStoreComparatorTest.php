@@ -26,6 +26,7 @@ use PHPUnit\Framework\TestCase;
  * container's own `getItems()` map; a lightweight duck-typed double exposing getItems()/getActiveGroups()
  * pre-supplies that nested `[groupId => [keyId => [language => value]]]` structure.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.classification-store')]
 final class ClassificationStoreComparatorTest extends TestCase
 {
     private function context(): ComparisonContext

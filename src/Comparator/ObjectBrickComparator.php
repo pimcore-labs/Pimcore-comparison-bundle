@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * child field set is empty and the brick child reflects presence only.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 40])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.object-brick', group: 'comparators', name: 'Object brick comparator', description: 'Diffs object bricks as expandable nested sections, matched by brick type.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-010'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class ObjectBrickComparator extends AbstractFieldComparator
 {
     public function supports(Data $fieldDefinition): bool

@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * (kept/added/removed/moved) plus add/remove/kept counts in {@see FieldDiff::$meta} for the frontend.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 30])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.relation', group: 'comparators', name: 'Relation comparator', description: 'Classifies related elements as added / removed / kept / reordered.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-007'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class RelationComparator extends AbstractFieldComparator
 {
     private const RELATION_FIELDTYPES = [

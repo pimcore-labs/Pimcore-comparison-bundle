@@ -29,6 +29,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * gate plus element view-permission on BOTH objects (T-SEC-001) are enforced per request; fields the
  * user may not see are masked server-side (C-2, T-SEC-002).
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'api.rest', group: 'api', name: 'Comparison REST API', description: 'Studio REST endpoints: objects, objects/summary, objects/export; permission-gated, ETag, ProblemDetails.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::IN_PROGRESS, openGaps: ['Verified via live HTTP smoke; API functional tests pending'], specRefs: ['FR-CMP-020', 'FR-CMP-026', 'FR-CMP-027', 'FR-CMP-028'], dependsOn: ['core.comparison-service'], since: '2026-07-24', backendOnly: true)]
 final class ComparisonController extends AbstractComparisonController
 {
     public function __construct(

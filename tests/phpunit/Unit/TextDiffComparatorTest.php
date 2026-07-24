@@ -18,6 +18,7 @@ use PHPUnit\Framework\TestCase;
  * Pure-unit coverage of {@see TextDiffComparator}: word-level inline text diff (FR-CMP-005) and
  * WYSIWYG sanitized-HTML reduction (FR-CMP-006). No Pimcore kernel required.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.text-diff')]
 final class TextDiffComparatorTest extends TestCase
 {
     private function context(): ComparisonContext

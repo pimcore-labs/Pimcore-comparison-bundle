@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
  * (FR-CMP-004), the FieldDiff/DiffStatus model (FR-CMP-015/016) and DiffResult summary (FR-CMP-018).
  * No Pimcore kernel required.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('core.comparison-service')]
 final class ComparisonEngineTest extends TestCase
 {
     private function context(): ComparisonContext
@@ -44,6 +45,7 @@ final class ComparisonEngineTest extends TestCase
 
     // ---- Normalizer (FR-CMP-014) ----
 
+    #[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('core.normalization')]
     public function testNumericNormalizationTreatsEquivalentNumbersEqual(): void
     {
         $n = new Normalizer();
@@ -52,12 +54,14 @@ final class ComparisonEngineTest extends TestCase
         self::assertFalse($n->scalarEquals('13.4', '13.5'));
     }
 
+    #[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('core.normalization')]
     public function testNumericEpsilonTolerance(): void
     {
         self::assertFalse((new Normalizer(['numeric_epsilon' => 0.0]))->scalarEquals(1.0, 1.001));
         self::assertTrue((new Normalizer(['numeric_epsilon' => 0.01]))->scalarEquals(1.0, 1.001));
     }
 
+    #[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('core.normalization')]
     public function testTrimAndEmptyNullCoercion(): void
     {
         $n = new Normalizer(['trim' => true, 'empty_string_equals_null' => true]);
@@ -67,6 +71,7 @@ final class ComparisonEngineTest extends TestCase
         self::assertFalse($n->scalarEquals('a', null));
     }
 
+    #[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('core.normalization')]
     public function testDatesComparedInUtc(): void
     {
         $n = new Normalizer();
@@ -78,12 +83,14 @@ final class ComparisonEngineTest extends TestCase
 
     // ---- ScalarComparator (FR-CMP-004) ----
 
+    #[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.scalar')]
     public function testScalarComparatorSupportsScalarTypesOnly(): void
     {
         $cmp = new ScalarComparator();
         self::assertTrue($cmp->supports($this->field()));
     }
 
+    #[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.scalar')]
     public function testScalarEqualChangedOnlyLeftOnlyRight(): void
     {
         $cmp = new ScalarComparator();

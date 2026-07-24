@@ -14,6 +14,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * text, containers) and above the fallback.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 10])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.scalar', group: 'comparators', name: 'Scalar comparator', description: 'Diffs scalar fieldtypes (input, number, select, checkbox, date) with normalization-aware equality.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-004'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class ScalarComparator extends AbstractFieldComparator
 {
     private const SCALAR_FIELDTYPES = [

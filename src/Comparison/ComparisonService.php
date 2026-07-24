@@ -20,6 +20,7 @@ use Pimcore\Model\DataObject\Concrete;
  * may NOT see; those fields are emitted as `hidden` without values. The service itself performs no
  * element-permission check — that is the controller's job, per request.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'core.comparison-service', group: 'core', name: 'Comparison service', description: 'Orchestrates a two-object diff: guards (same class, both Concrete), walks the layout, assembles the DiffResult.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['C-1', 'C-5', 'C-6', 'FR-CMP-001', 'FR-CMP-015', 'FR-CMP-016'], since: '2026-07-24', backendOnly: true)]
 final class ComparisonService
 {
     /**

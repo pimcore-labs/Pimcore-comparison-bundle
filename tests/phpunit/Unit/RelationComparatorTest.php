@@ -19,6 +19,7 @@ use PHPUnit\Framework\TestCase;
  * elements into equal / changed / reordered / only-side, with add/remove/kept counts. No Pimcore
  * kernel required — elements are ElementInterface stubs identified by their id.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.relation')]
 final class RelationComparatorTest extends TestCase
 {
     private function context(): ComparisonContext

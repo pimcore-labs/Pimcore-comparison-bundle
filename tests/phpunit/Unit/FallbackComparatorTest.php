@@ -21,6 +21,7 @@ use PHPUnit\Framework\TestCase;
  * the type provides it (falling back to the normalizer over the rendered strings otherwise, and on a
  * throwing isEqual). No Pimcore kernel required.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.fallback')]
 final class FallbackComparatorTest extends TestCase
 {
     private function context(): ComparisonContext

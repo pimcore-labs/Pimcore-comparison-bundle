@@ -27,6 +27,7 @@ use PHPUnit\Framework\TestCase;
  * lightweight duck-typed doubles: a container exposing getItems() over brick doubles exposing
  * getType().
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.object-brick')]
 final class ObjectBrickComparatorTest extends TestCase
 {
     private function context(ComparatorRegistry $registry): ComparisonContext

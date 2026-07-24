@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * content change. Sits above {@see ScalarComparator} (priority 30 > 10) so it wins for text fields.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 30])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.text-diff', group: 'comparators', name: 'Text / WYSIWYG diff comparator', description: 'Word-level inline diff for textual fields; WYSIWYG diffed on sanitized HTML.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-005', 'FR-CMP-006'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class TextDiffComparator extends AbstractFieldComparator
 {
     private const TEXT_FIELDTYPES = ['textarea', 'wysiwyg'];

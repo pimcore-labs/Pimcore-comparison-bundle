@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  * DiffFilter (FR-CMP-017) and DiffExporter (FR-CMP-021/022): server-side filtering by mode + query
  * and XLSX/JSON serialization of the (filtered) tree.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('export.xlsx-json')]
 final class ExportTest extends TestCase
 {
     /** @return list<FieldDiff> */

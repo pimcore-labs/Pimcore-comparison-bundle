@@ -21,6 +21,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * Ordering is not distinguished for images in v1 (no REORDERED).
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 35])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.asset-field', group: 'comparators', name: 'Asset / image field comparator', description: 'Compares image / hotspotimage / imageGallery fields by asset id and path.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, openGaps: ['Binary hash comparison deferred to P2; v1 compares asset id/path'], specRefs: ['FR-CMP-013'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class AssetFieldComparator extends AbstractFieldComparator
 {
     private const ASSET_FIELDTYPES = ['image', 'hotspotimage', 'imageGallery'];

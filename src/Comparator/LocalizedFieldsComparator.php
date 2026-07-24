@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * unit-testable with a lightweight double); a `null` side simply yields `null` for every locale.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 40])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.localized', group: 'comparators', name: 'Localized fields comparator', description: 'Diffs localized fields per language as one sub-row per enabled language.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-008'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class LocalizedFieldsComparator extends AbstractFieldComparator
 {
     public function supports(Data $fieldDefinition): bool

@@ -30,6 +30,7 @@ use PHPUnit\Framework\TestCase;
  * items ({@see \Pimcore\Model\DataObject\Fieldcollection} / its `AbstractData`) are duck-typed via
  * getItems()/getType()/getValueForFieldName(), so lightweight doubles stand in.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.field-collection')]
 final class FieldCollectionComparatorTest extends TestCase
 {
     private function context(ComparatorRegistry $registry): ComparisonContext

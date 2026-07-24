@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
  * is `final` and cannot be stubbed, so a lightweight duck-typed double exposing getLocalizedValue() is
  * used — the comparator reads containers via that accessor.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.localized')]
 final class LocalizedFieldsComparatorTest extends TestCase
 {
     /** @param list<string> $locales */

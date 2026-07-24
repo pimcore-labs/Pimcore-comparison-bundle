@@ -22,6 +22,13 @@ services:
             - '../src/Comparison/WalkedField.php'
             - '../src/Comparison/ComparisonException.php'
             - '../src/Comparator/ComparisonContext.php'
+            - '../src/Studio/WebpackEntryPointProvider.php'
+            # Feature registry: attributes, enum and value objects are not services; the compiler pass
+            # runs at build time. FeatureRegistry, the marker and the commands stay as services.
+            - '../src/Feature/Attribute/'
+            - '../src/Feature/FeatureStatus.php'
+            - '../src/Feature/Coverage/CoverageReport.php'
+            - '../src/Feature/DependencyInjection/'
 
     # Controllers: explicit service args so #[MapQueryString]/#[MapRequestPayload] resolve, and so the
     # broad ../src/* prototype above does not re-register them without the controller tag.
@@ -32,3 +39,9 @@ services:
     # Installer must be public so the bundle manager can fetch it.
     Pimcore\Bundle\ComparisonBundle\Installer:
         public: true
+
+    # Studio UI plugin entry point. Declared explicitly (and excluded from the ../src/* prototype
+    # above) so the module-federation remote gets registered with the Studio shell via the tag.
+    Pimcore\Bundle\ComparisonBundle\Studio\WebpackEntryPointProvider:
+        tags:
+            - { name: pimcore_studio_ui.webpack_entry_point_provider }

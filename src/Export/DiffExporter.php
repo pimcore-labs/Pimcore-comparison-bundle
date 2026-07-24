@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
  * per leaf, keeping the container path so nested field-collection/brick/localized rows stay legible.
  * Callers pass an already-filtered field list so the file honours the active view (T-SEC-006).
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'export.xlsx-json', group: 'export', name: 'XLSX / JSON export', description: 'Server-side export of the current filtered diff as XLSX and JSON, honouring the active filter.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['C-3', 'FR-CMP-021', 'FR-CMP-022'], dependsOn: ['api.rest'], since: '2026-07-24', backendOnly: true)]
 final class DiffExporter
 {
     public const FORMAT_XLSX = 'xlsx';

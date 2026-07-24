@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
  * registers a higher-priority comparator to override a core one. The FallbackComparator sits at the
  * lowest priority and supports everything, so resolution never fails.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'core.comparator-registry', group: 'core', name: 'Comparator registry', description: 'Resolves a comparator per fieldtype from tagged services by priority; first supporting wins; the SPI.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-003', 'FR-CMP-023'], dependsOn: ['core.comparison-service'], since: '2026-07-24', backendOnly: true)]
 final class ComparatorRegistry
 {
     /** @var list<FieldComparatorInterface> */

@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * container path.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 40])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.classification-store', group: 'comparators', name: 'Classification store comparator', description: 'Diffs classification-store values by walking active groups, keys and languages.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-011'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class ClassificationStoreComparator extends AbstractFieldComparator
 {
     public function supports(Data $fieldDefinition): bool

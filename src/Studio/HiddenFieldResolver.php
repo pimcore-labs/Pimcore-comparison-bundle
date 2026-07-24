@@ -20,6 +20,7 @@ use Pimcore\Model\User;
  * the object is enforced separately by the controller, so a resolution miss never exposes an object
  * the user could not already open.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'security.permissions', group: 'security', name: 'Permissions & statelessness', description: 'View-permission on both objects, server-side field-level layout masking (hidden), no persistence.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::IN_PROGRESS, openGaps: ['Element + field masking verified via live smoke; PHPUnit for the resolver pending'], specRefs: ['C-2', 'C-4', 'T-SEC-001', 'T-SEC-002', 'T-SEC-003', 'T-SEC-004', 'T-SEC-005', 'T-SEC-006', 'T-SEC-007'], since: '2026-07-24', backendOnly: true)]
 final class HiddenFieldResolver
 {
     /**

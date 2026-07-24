@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * compared through the normalizer.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => -100])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.fallback', group: 'comparators', name: 'Fallback comparator', description: 'Last-resort comparator for unknown/custom fieldtypes using getVersionPreview + EqualComparisonInterface.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, specRefs: ['FR-CMP-012'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class FallbackComparator extends AbstractFieldComparator
 {
     public function supports(Data $fieldDefinition): bool

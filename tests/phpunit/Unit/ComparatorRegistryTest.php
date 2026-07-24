@@ -23,6 +23,7 @@ use PHPUnit\Framework\TestCase;
  * returns the right comparator per fieldtype and the catch-all FallbackComparator never shadows a
  * more specific one.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('core.comparator-registry')]
 final class ComparatorRegistryTest extends TestCase
 {
     private function registry(): ComparatorRegistry

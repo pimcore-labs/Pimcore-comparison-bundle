@@ -16,6 +16,7 @@ use Pimcore\Model\DataObject\ClassDefinition\Layout;
  *
  * When no layout is defined it falls back to the flat field-definition list.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'core.field-walker', group: 'core', name: 'Field walker', description: 'Walks the class layout definition, preserving panels/tabs/regions as sections.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::IN_PROGRESS, openGaps: ['Exercised via the CLI smoke + live integration; no dedicated PHPUnit yet'], specRefs: ['C-2', 'FR-CMP-002'], since: '2026-07-24', backendOnly: true)]
 final class FieldWalker
 {
     /**

@@ -30,6 +30,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * with lightweight doubles; a `null` side simply yields an empty item list.
  */
 #[AutoconfigureTag('pimcore.comparison.field_comparator', ['priority' => 40])]
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\AsFeature(id: 'comparators.field-collection', group: 'comparators', name: 'Field collection comparator', description: 'Diffs field collections as expandable nested sections; items matched by index in v1.', status: \Pimcore\Bundle\ComparisonBundle\Feature\FeatureStatus::BETA, openGaps: ['Index-based item matching only in v1; stable-key matching deferred'], specRefs: ['FR-CMP-009'], dependsOn: ['core.comparator-registry'], since: '2026-07-24', backendOnly: true)]
 final class FieldCollectionComparator extends AbstractFieldComparator
 {
     public function supports(Data $fieldDefinition): bool

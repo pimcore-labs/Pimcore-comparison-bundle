@@ -20,6 +20,7 @@ use PHPUnit\Framework\TestCase;
  * meta for the thumbnail preview. No Pimcore kernel required — assets are Asset stubs identified by
  * their id.
  */
+#[\Pimcore\Bundle\ComparisonBundle\Feature\Attribute\CoversFeature('comparators.asset-field')]
 final class AssetFieldComparatorTest extends TestCase
 {
     private function context(): ComparisonContext
